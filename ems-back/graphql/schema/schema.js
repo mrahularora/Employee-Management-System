@@ -1,0 +1,61 @@
+const { gql } = require('apollo-server-express');
+
+const typeDefs = gql`
+  type Employee {
+    id: ID!
+    FirstName: String!
+    LastName: String!
+    Age: Int!
+    DateOfJoining: String!
+    Title: String!
+    Department: String!
+    EmployeeType: String!
+    CurrentStatus: Boolean!
+  }
+
+  type EmployeeCommunity {
+    id: ID!
+    EmployeeName: String!
+    DepartmentName: String!
+    ClubName: String!
+    NumberOfMembers: Int!
+  }
+    
+  type Registration {
+  id: ID!
+  name: String!
+  email: String!
+  activity: String!
+  }
+
+  type Query {
+    employees: [Employee]
+    employeeCommunities: [EmployeeCommunity]
+    registrations: [Registration]
+  }
+
+  type Mutation {
+    createEmployee(
+      FirstName: String!
+      LastName: String!
+      Age: Int!
+      DateOfJoining: String!
+      Title: String!
+      Department: String!
+      EmployeeType: String!
+    ): Employee
+    createEmployeeCommunity(
+      EmployeeName: String!
+      DepartmentName: String!
+      ClubName: String!
+      NumberOfMembers: Int!
+    ): EmployeeCommunity
+    register(
+      name: String!
+      email: String!
+      activity: String!
+    ): Registration
+  }
+`;
+
+module.exports = typeDefs;

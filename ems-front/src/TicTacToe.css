@@ -1,0 +1,83 @@
+/* src/components/TicTacToe.css */
+.game {
+    display: flex;
+    padding-top:50px;
+    flex-direction: column;
+    align-items: center;
+    min-height:500px;
+  }
+  
+  .game-info {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .game-board {
+    margin-bottom: 20px;
+  }
+  
+  .status {
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .score {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  
+  .reset-button {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .board-row {
+    display: flex;
+  }
+  
+  .square {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 72px;  /* Increased from 24px */
+    font-weight: bold;
+    line-height: 102px;  /* Increased from 34px */
+    height: 102px;  /* Increased from 34px */
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 102px;  /* Increased from 34px */
+    cursor: pointer;
+  }
+  
+  .square:focus {
+    outline: none;
+  }
+  
+  .player-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  
+  .player-form div {
+    margin-bottom: 10px;
+  }
+  
+  .player-form label {
+    font-size: 18px;
+    font-weight: bold;
+    width: 220px;
+  }
+  
+  .player-form input {
+    padding: 5px;
+    font-size: 16px;
+  }
+  
