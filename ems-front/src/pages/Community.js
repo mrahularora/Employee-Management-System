@@ -39,6 +39,20 @@ const Community = () => {
       <EmployeeNavigation />
       <div className="ems-clear"></div><br />
       <h2 className="center">Employee Community</h2>
+      <section className="ems-info-section">
+        <div>
+          <h2>Support employee connection</h2>
+          <p>
+            Track workplace clubs and internal communities so teams can see
+            where employees are involved beyond their day-to-day department work.
+          </p>
+        </div>
+        <ul>
+          <li>Register employee-led clubs and groups.</li>
+          <li>Keep department participation visible.</li>
+          <li>Monitor group size for planning and coordination.</li>
+        </ul>
+      </section>
       <div className="ems-container ems-create">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-group">
@@ -99,6 +113,9 @@ const Community = () => {
       </div><br />
 
       <h2 className="center">Community Data</h2>
+      <p className="ems-section-note">
+        Community entries below are loaded from the GraphQL API after submission.
+      </p>
       <div className="ems-create">
         {data.employeeCommunities.length === 0 ? (
           <p>No entries found.</p>
