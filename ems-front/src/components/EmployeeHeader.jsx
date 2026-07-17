@@ -4,7 +4,7 @@ import "../index.css";
 const EmployeeHeader = () => {
   return (
     <div className="ems-header">
-        Employement Management System
+        Employee Management System
     </div>
   );
 };

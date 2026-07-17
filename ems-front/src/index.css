@@ -148,6 +148,89 @@ body {
   padding-top:20px;
 }
 
+.ems-home-hero {
+  width: 80%;
+  margin: 28px auto 18px;
+  padding: 34px;
+  background: #ffffff;
+  border-left: 6px solid #1B2A41;
+  box-shadow: 0 8px 20px rgba(27, 42, 65, 0.08);
+}
+
+.ems-home-hero h1 {
+  max-width: 760px;
+  margin: 8px 0 12px;
+  color: #1B2A41;
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.ems-home-hero p {
+  max-width: 680px;
+  color: #42526e;
+  font-size: 17px;
+}
+
+.ems-kicker {
+  color: #276749 !important;
+  font-size: 13px !important;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.ems-home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.ems-button {
+  display: inline-block;
+  padding: 10px 16px;
+  background-color: #1B2A41;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.ems-button.secondary {
+  background-color: #d2dcf2;
+  color: #1B2A41;
+}
+
+.ems-home-grid {
+  width: 80%;
+  margin: 0 auto 12px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.ems-home-card {
+  min-height: 150px;
+  padding: 18px;
+  color: #1B2A41;
+  background-color: #ffffff;
+  border: 1px solid #d7e0ee;
+  text-decoration: none;
+}
+
+.ems-home-card span {
+  color: #276749;
+  font-weight: 800;
+}
+
+.ems-home-card h3 {
+  margin: 8px 0;
+}
+
+.ems-home-card p {
+  color: #42526e;
+  line-height: 1.4;
+}
+
 .ems-create {
   width: 50%;
   margin: auto;
@@ -327,4 +410,29 @@ h3 {
   text-align: center;
   margin-top: 20px;
   height: 100px;
+}
+
+@media (max-width: 800px) {
+  .ems-navigation ul,
+  .ems-container,
+  .ems-home-hero,
+  .ems-home-grid {
+    width: 92%;
+  }
+
+  .ems-navigation ul li {
+    display: block;
+  }
+
+  .ems-home-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ems-home-hero {
+    padding: 22px;
+  }
+
+  .ems-home-hero h1 {
+    font-size: 26px;
+  }
 }

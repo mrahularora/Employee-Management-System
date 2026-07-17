@@ -7,8 +7,8 @@ const Navigation = () => {
     <nav className="ems-navigation">
         <ul>
      
-            <li><Link to="/listpage">Employee List Page</Link></li>
-            <li><Link to="/create">Employee Create Page</Link></li>
+            <li><Link to="/listpage">Home</Link></li>
+            <li><Link to="/create">Add Employee</Link></li>
             <li><Link to="/community">Community</Link></li>
             <li className="nav">
               <Link to="/recreation">Recreation Page <span className="down">&#9660;</span> </Link>
