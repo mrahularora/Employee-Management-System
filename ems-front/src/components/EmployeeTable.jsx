@@ -7,7 +7,17 @@ const EmployeeTable = () => {
   const { loading, error, data } = useQuery(GET_EMPLOYEES);
 
   if (loading) return <p>Loading data...</p>;
-  if (error) return <p>Error :(</p>;
+  if (error) {
+    return (
+      <p className="error-message">
+        Employee data is unavailable. Start the backend API on port 4000 and refresh.
+      </p>
+    );
+  }
+
+  if (!data?.employees?.length) {
+    return <p className="center">No employees found.</p>;
+  }
 
   return (
     <div className="ems-table-container">
