@@ -231,6 +231,38 @@ body {
   line-height: 1.4;
 }
 
+.ems-info-section {
+  width: 80%;
+  margin: 0 auto 12px;
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 18px;
+  background-color: #ffffff;
+  border: 1px solid #d7e0ee;
+}
+
+.ems-info-section h2 {
+  margin-bottom: 8px;
+  color: #1B2A41;
+}
+
+.ems-info-section p,
+.ems-info-section li,
+.ems-section-note {
+  color: #42526e;
+  line-height: 1.5;
+}
+
+.ems-info-section ul {
+  padding-left: 20px;
+}
+
+.ems-section-note {
+  margin-bottom: 12px;
+  text-align: center;
+}
+
 .ems-create {
   width: 50%;
   margin: auto;
@@ -416,7 +448,8 @@ h3 {
   .ems-navigation ul,
   .ems-container,
   .ems-home-hero,
-  .ems-home-grid {
+  .ems-home-grid,
+  .ems-info-section {
     width: 92%;
   }
 
@@ -425,6 +458,10 @@ h3 {
   }
 
   .ems-home-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ems-info-section {
     grid-template-columns: 1fr;
   }
 
