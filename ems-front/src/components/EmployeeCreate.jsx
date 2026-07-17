@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { CREATE_EMPLOYEE } from "../graphql/mutations";
 import { GET_EMPLOYEES } from "../graphql/queries";
 import "../index.css";
 
+const emptyEmployee = {
+  FirstName: "",
+  LastName: "",
+  Age: "",
+  DateOfJoining: "",
+  Title: "",
+  Department: "",
+  EmployeeType: "",
+};
+
 const EmployeeCreate = () => {
-  const [formData, setFormData] = useState({
-    FirstName: "",
-    LastName: "",
-    Age: "",
-    DateOfJoining: "",
-    Title: "",
-    Department: "",
-    EmployeeType: "",
-  });
+  const [formData, setFormData] = useState(emptyEmployee);
 
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -25,21 +27,12 @@ const EmployeeCreate = () => {
         data: { employees: [...employees, createEmployee] },
       });
     },
-    onCompleted: (data) => {
-      console.log("Employee added:", data);
+    onCompleted: () => {
       setSuccessMessage("Employee added successfully!");
       setErrorMessage("");
-      setFormData({
-        FirstName: "",
-        LastName: "",
-        Age: "",
-        DateOfJoining: "",
-        Title: "",
-        Department: "",
-        EmployeeType: "",
-      });
+      setFormData(emptyEmployee);
     },
-    onError: (error) => {
+    onError: () => {
       setErrorMessage("Failed to add employee. Please try again.");
     },
   });
@@ -51,7 +44,6 @@ const EmployeeCreate = () => {
     });
   };
 
-  //validations
   const validateForm = () => {
     const { FirstName, LastName, Age, DateOfJoining, Title, Department, EmployeeType } = formData;
     if (!FirstName || !LastName || !Age || !DateOfJoining || !Title || !Department || !EmployeeType) {

@@ -1,8 +1,6 @@
-// src/components/RegistrationForm.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 
-// Define the GraphQL mutation
 const REGISTER_MUTATION = gql`
   mutation Register($name: String!, $email: String!, $activity: String!) {
     register(name: $name, email: $email, activity: $activity) {
@@ -120,7 +118,6 @@ const RegistrationForm = () => {
         </form>
       )}
       {submissionError && <p className="error">{submissionError}</p>}
-      {/* Display additional GraphQL errors */}
       {error && <p className="error">{error.message}</p>}<br />
       <hr />
     </div>

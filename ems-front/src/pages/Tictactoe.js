@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import "../index.css";
 import EmployeeHeader from "../components/EmployeeHeader";
 import EmployeeNavigation from "../components/EmployeeNavigation";

@@ -1,4 +1,3 @@
-import React from "react";
 import EmployeeHeader from "../components/EmployeeHeader";
 import EmployeeNavigation from "../components/EmployeeNavigation";
 import BoardGamesComponent from "../components/BoardGamesComponent";
