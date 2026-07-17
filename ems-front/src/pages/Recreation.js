@@ -25,6 +25,20 @@ const Recreation = () => {
       <p className="center" id="opening">
       At EMS, we believe that the success of our organization is directly connected to a happy and engaged workforce. Keeping this in mind, we emphasize employee well-being by focusing on recreation activities that help develop a positive work environment and encourage team building. We provide the recreation activity page within our Employee Management System (EMS) to keep our team informed and involved.
       </p><br />
+      <section className="ems-info-section">
+        <div>
+          <h2>Plan activities that keep teams engaged</h2>
+          <p>
+            Recreation programs help employees reset, collaborate outside daily
+            tasks, and build stronger working relationships across departments.
+          </p>
+        </div>
+        <ul>
+          <li>Use the calendar to review upcoming activity dates.</li>
+          <li>Browse previous events for ideas and participation context.</li>
+          <li>Register for activities that support wellness and team building.</li>
+        </ul>
+      </section>
       <hr className="hr" />
 
       <div className="divcenter"><BoardGamesComponent /></div>
@@ -38,6 +52,9 @@ const Recreation = () => {
         
       <h3>Wellness Programs</h3>
       <p className="paragraph">The wellness programs have been structured to promote physical and mental well-being. Practice yoga, mindfulness sessions, fitness boot camps, and nutritional workshops. Our holistic approach ensures that every employee gets access to resources that help them lead a healthy life.</p><br />
+
+      <h3>Participation Notes</h3>
+      <p className="paragraph">Choose activities that fit your schedule and team goals. Recreation entries are designed to make participation easy to review, plan, and improve over time.</p><br />
 
         <h3>Feedback</h3>
         <p className="paragraph">We love to hear from you! Our Recreation Activity page includes space for feedback, where you can provide your input about our past events and also suggest new activities. Your feedback is what keeps us always making improvements to what we offer and tailoring it specifically to you.</p><br />
