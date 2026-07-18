@@ -126,6 +126,20 @@ const TicTacToe = () => {
     <div>
     <EmployeeHeader />
     <EmployeeNavigation />
+    <section className="ems-info-section">
+      <div>
+        <h2>Tic Tac Toe team break</h2>
+        <p>
+          A quick two-player game for short recreation breaks, warmups, or
+          friendly team challenges during workplace events.
+        </p>
+      </div>
+      <ul>
+        <li>Enter both player names before starting.</li>
+        <li>Take turns placing X and O on the board.</li>
+        <li>First player with three in a row scores a point.</li>
+      </ul>
+    </section>
     <div className="game container">
       {!gameStarted ? (
          <form onSubmit={handleStartGame} className="player-form">
