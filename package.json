@@ -1,0 +1,13 @@
+{
+  "name": "ems",
+  "version": "1.0.0",
+    "scripts": {
+    "server": "npm --prefix ems-back run dev",
+    "client": "npm --prefix ems-front start",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3",
+    "nodemon": "^3.1.14"
+  }
+}

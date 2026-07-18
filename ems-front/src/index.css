@@ -163,6 +163,32 @@ body:has(.ems-navigation) {
   padding-top:20px;
 }
 
+.create-page {
+  max-width: 980px;
+  padding-top: 28px;
+}
+
+.create-page .ems-home-hero,
+.create-page .ems-info-section,
+.create-page .ems-create {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.create-page .ems-home-hero {
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
+.create-page .ems-info-section {
+  margin-bottom: 18px;
+}
+
+.create-page .ems-create {
+  margin-bottom: 30px;
+}
+
 .ems-home-hero {
   width: 80%;
   margin: 28px auto 18px;
@@ -315,17 +341,33 @@ body:has(.ems-navigation) {
 .ems-create {
   width: 50%;
   margin: auto;
-  padding: 20px;
-  border: 1px dashed #aaa;
+  padding: 26px;
+  background-color: #ffffff;
+  border: 1px solid #d7e0ee;
 }
 
 .ems-create h2 {
-  font-size: 16px;
-  margin-bottom: 20px;
-  text-align: center;
+  color: #1B2A41;
+}
+
+.create-form-header {
+  margin-bottom: 22px;
+}
+
+.create-form-header p {
+  color: #42526e;
+}
+
+.create-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 20px;
 }
 
 .form-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #1B2A41;
   font-size: 15px;
   font-weight: 900;
 }
@@ -340,7 +382,14 @@ body:has(.ems-navigation) {
   border: 1px solid #ddd;
   width: 100%;
   transition: border-color 0.3s ease;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #1B2A41;
+  box-shadow: 0 0 0 3px rgba(27, 42, 65, 0.12);
 }
 
 .form-group button[type="submit"] {
@@ -575,6 +624,7 @@ body.dark-mode .ems-home-hero,
 body.dark-mode .ems-home-card,
 body.dark-mode .ems-info-section,
 body.dark-mode .login-panel,
+body.dark-mode .ems-create,
 body.dark-mode .paragraph {
   background-color: #1f2937;
 }
@@ -584,6 +634,8 @@ body.dark-mode .nav-button,
 body.dark-mode .ems-home-hero h1,
 body.dark-mode .ems-home-card,
 body.dark-mode .ems-info-section h2,
+body.dark-mode .ems-create h2,
+body.dark-mode .form-group label,
 body.dark-mode .login-panel h1,
 body.dark-mode .login-form label,
 body.dark-mode .ems-button.secondary {
@@ -595,6 +647,7 @@ body.dark-mode .ems-home-card p,
 body.dark-mode .ems-info-section p,
 body.dark-mode .ems-info-section li,
 body.dark-mode .ems-section-note,
+body.dark-mode .create-form-header p,
 body.dark-mode .login-panel p {
   color: #cbd5e1;
 }
@@ -641,8 +694,24 @@ body.dark-mode .theme-toggle {
   .ems-container,
   .ems-home-hero,
   .ems-home-grid,
-  .ems-info-section {
+  .ems-info-section,
+  .ems-create {
     width: 92%;
+  }
+
+  .create-page .ems-home-hero,
+  .create-page .ems-info-section,
+  .create-page .ems-create {
+    width: 100%;
+  }
+
+  .create-page {
+    padding-top: 18px;
+  }
+
+  .create-page .ems-home-hero,
+  .create-page .ems-info-section {
+    margin-bottom: 14px;
   }
 
   .ems-navigation ul li {
@@ -655,6 +724,15 @@ body.dark-mode .theme-toggle {
 
   .ems-info-section {
     grid-template-columns: 1fr;
+  }
+
+  .create-form-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .ems-create {
+    padding: 20px;
   }
 
   .ems-home-hero {

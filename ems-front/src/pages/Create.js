@@ -9,15 +9,21 @@ const Create = () => {
       <EmployeeHeader />
       <EmployeeNavigation />
       <div className="ems-clear"></div>
-        <div className="ems-container">
-        <h2 className="center">Create New Employee</h2>
+        <div className="ems-container create-page">
+        <section className="ems-home-hero">
+          <p className="ems-kicker">Employee onboarding</p>
+          <h1>Create a new employee record.</h1>
+          <p>
+            Add verified employee details once, then use them across the
+            directory, community, and recreation areas.
+          </p>
+        </section>
         <section className="ems-info-section">
           <div>
-            <h2>Add a complete employee profile</h2>
+            <h2>Before you submit</h2>
             <p>
-              Use this page to register new employees with the details needed
-              for directory tracking, department reporting, and employment status
-              visibility.
+              Confirm the employee name, role, department, and joining date so
+              the directory stays reliable for everyday HR work.
             </p>
           </div>
           <ul>
