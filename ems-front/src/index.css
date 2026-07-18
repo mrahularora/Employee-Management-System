@@ -164,8 +164,23 @@ body:has(.ems-navigation) {
 }
 
 .create-page {
-  max-width: 980px;
+  width: min(86%, 1120px);
+  max-width: none;
   padding-top: 28px;
+}
+
+.create-layout {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.58fr) minmax(0, 1.42fr);
+  gap: 22px;
+  align-items: stretch;
+  margin-bottom: 32px;
+}
+
+.create-details {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 12px;
 }
 
 .create-page .ems-home-hero,
@@ -178,15 +193,31 @@ body:has(.ems-navigation) {
 
 .create-page .ems-home-hero {
   margin-top: 0;
-  margin-bottom: 18px;
+  margin-bottom: 0;
+  padding: 20px;
 }
 
 .create-page .ems-info-section {
-  margin-bottom: 18px;
+  margin-bottom: 0;
+  padding: 18px;
+  grid-template-columns: 1fr;
+  gap: 12px;
 }
 
 .create-page .ems-create {
-  margin-bottom: 30px;
+  align-self: stretch;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.create-page .ems-home-hero h1 {
+  font-size: 24px;
+}
+
+.create-page .ems-home-hero p,
+.create-page .ems-info-section p,
+.create-page .ems-info-section li {
+  font-size: 14px;
 }
 
 .ems-home-hero {
@@ -709,9 +740,18 @@ body.dark-mode .theme-toggle {
     padding-top: 18px;
   }
 
+  .create-layout {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .create-layout .ems-create {
+    order: -1;
+  }
+
   .create-page .ems-home-hero,
   .create-page .ems-info-section {
-    margin-bottom: 14px;
+    margin-bottom: 0;
   }
 
   .ems-navigation ul li {

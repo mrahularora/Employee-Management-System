@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.10.5",
-    "dev": "nodemon index.js",
     "bootstrap": "^5.3.3",
     "graphql": "^15.8.0",
     "prop-types": "^15.8.1",
