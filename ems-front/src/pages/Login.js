@@ -29,15 +29,31 @@ const Login = () => {
       <section className="login-panel">
         <p className="ems-kicker">Internal access</p>
         <h1>Employee Management System</h1>
-        <p>Sign in with your organization admin account to continue.</p>
-        <form onSubmit={handleSubmit}>
+        <p className="login-copy">Sign in with your organization admin account to continue.</p>
+        <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="username">Username</label>
-            <input id="username" name="username" type="text" value={formData.username} onChange={handleChange} required />
+            <input
+              id="username"
+              name="username"
+              type="text"
+              value={formData.username}
+              onChange={handleChange}
+              placeholder="admin"
+              required
+            />
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input id="password" name="password" type="password" value={formData.password} onChange={handleChange} required />
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Enter password"
+              required
+            />
           </div>
           {error && <p className="error-message">Invalid username or password.</p>}
           <button type="submit" className="ems-button" disabled={loading}>
