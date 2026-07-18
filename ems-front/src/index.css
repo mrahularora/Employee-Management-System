@@ -24,7 +24,8 @@ body {
 
 /*EMS HEADER*/
 .ems-header{
-  width: 100%;
+  width: calc(100% - 220px);
+  margin-left: 220px;
   padding: 20px;
   color:white;
   background-color: #1B2A41;
@@ -35,29 +36,34 @@ body {
 
 /*EMS Navigation */
 .ems-navigation{
-  width: 100%;
-  min-height:45px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 220px;
+  height: 100vh;
+  padding-top: 18px;
   background-color: #d2dcf2;
-  border-bottom:1px solid #ccc;
+  border-right:1px solid #ccc;
 }
 
 .ems-navigation ul {
   list-style: none;
-  text-align: center;
-  vertical-align: middle;
-  width:50%;
-  margin: auto;
+  width: 100%;
 }
 
 .ems-navigation ul li{
-  display: inline-block;
-  padding:12px;
+  display: block;
+  padding: 10px 18px;
   position: relative; 
   cursor: pointer;
 }
 
 .ems-navigation ul li a{
+  display: block;
+  color: #1B2A41;
   text-decoration: none;
+  font-weight: 700;
 }
 
 .ems-navigation ul li a:hover{
@@ -68,15 +74,12 @@ body {
 .down{ font-size:11px;}
 
 .nav-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  background-color: #d2dcf2;
-  border-left: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-  z-index: 1000;
-  min-width: 200px;
+  display: block;
+  position: static;
+  background-color: transparent;
+  border: 0;
+  min-width: 0;
+  padding-top: 8px;
 }
 
 .nav:hover .nav-menu {
@@ -89,7 +92,13 @@ body {
 
 .nav ul{
   text-align: left !important;
-  padding:0px !important;;
+  padding:0px !important;
+}
+
+.ems-navigation ~ * {
+  margin-left: calc(220px + 5%);
+  margin-right: 5%;
+  width: auto;
 }
 
 
@@ -211,9 +220,10 @@ body {
 .nav-button {
   border: 0;
   background: transparent;
-  color: #0645ad;
+  color: #1B2A41;
   cursor: pointer;
   font: inherit;
+  font-weight: 700;
 }
 
 .ems-home-grid {
@@ -452,7 +462,6 @@ h3 {
 .ems-footer{
   background-color: #1B2A41;
   color:white;
-  width: 100%;
   font-size:14px;
   padding-top: 40px;
   text-align: center;
@@ -522,6 +531,20 @@ h3 {
 }
 
 @media (max-width: 800px) {
+  .ems-header {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .ems-navigation {
+    position: static;
+    width: 100%;
+    height: auto;
+    padding-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid #ccc;
+  }
+
   .ems-navigation ul,
   .ems-container,
   .ems-home-hero,
@@ -532,6 +555,12 @@ h3 {
 
   .ems-navigation ul li {
     display: block;
+  }
+
+  .ems-navigation ~ * {
+    margin-left: auto;
+    margin-right: auto;
+    width: 92%;
   }
 
   .ems-home-grid {
