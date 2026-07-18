@@ -4,9 +4,9 @@ const Registration = require('../../models/Registration');
 
 const resolvers = {
   Query: {
-    employees: () => Employee.find(),
-    employeeCommunities: () => EmployeeCommunity.find(),
-    registrations: () => Registration.find(),
+    employees: () => Employee.find().exec(),
+    employeeCommunities: () => EmployeeCommunity.find().exec(),
+    registrations: () => Registration.find().exec(),
   },
   Mutation: {
     createEmployee: async (_, { FirstName, LastName, Age, DateOfJoining, Title, Department, EmployeeType }) => {

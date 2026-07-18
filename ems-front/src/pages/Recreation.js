@@ -21,7 +21,7 @@ const Recreation = () => {
       <EmployeeHeader />
       <EmployeeNavigation />
       <div className="ems-clear"></div><br />
-      <h1 className="center">EMS- Recreation Activity</h1>
+      <h1 className="center">EMS Recreation Activities</h1>
       <p className="center" id="opening">
       At EMS, we believe that the success of our organization is directly connected to a happy and engaged workforce. Keeping this in mind, we emphasize employee well-being by focusing on recreation activities that help develop a positive work environment and encourage team building. We provide the recreation activity page within our Employee Management System (EMS) to keep our team informed and involved.
       </p><br />
@@ -81,7 +81,7 @@ const Recreation = () => {
       <h2>3. Community Service: April 2023</h2>
       <b>Description:</b> Our community service event in April 2023 was very fulfilling. Volunteers from our team gave their 
       time and energy to help a local shelter through donation sorting, meal preparation, and providing quality time with the 
-      \shelter residents. This was a wonderful reminder of our responsibility to give back to the community for good.<br /><br />
+      shelter residents. This was a wonderful reminder of our responsibility to give back to the community for good.<br /><br />
 
       <h2>4. Team Building: May 2023</h2>
       <b>Description:</b> The team-building retreat in the middle of May 2023 had been such a life-changing event for every single

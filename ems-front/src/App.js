@@ -14,13 +14,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<ListPage />} />
-         
           <Route path="/create" element={<Create />} />
           <Route path="/listpage" element={<ListPage />} />
           <Route path="/recreation" element={<Recreation />} />
           <Route path="/community" element={<Community />} />
           <Route path="/tictactoe" element={<TicTacToe />} />
-          <Route path="/recreation/boardgames" element={<BoardGames/>} />
+          <Route path="/recreation/boardgames" element={<BoardGames />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </BrowserRouter>
