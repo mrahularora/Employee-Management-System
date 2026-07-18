@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
-import { GET_EMPLOYEE_COMMUNITIES } from '../graphql/queries';
+import { Link } from "react-router-dom";
+import { useMutation } from '@apollo/client';
 import { CREATE_EMPLOYEE_COMMUNITY } from '../graphql/mutations';
 import { useForm } from 'react-hook-form';
 import EmployeeHeader from "../components/EmployeeHeader";
@@ -9,7 +9,6 @@ import EmployeeFooter from "../components/EmployeeFooter";
 import "../index.css";
 
 const Community = () => {
-  const { data, loading, error, refetch } = useQuery(GET_EMPLOYEE_COMMUNITIES);
   const [createEmployeeCommunity] = useMutation(CREATE_EMPLOYEE_COMMUNITY);
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -21,7 +20,6 @@ const Community = () => {
       await createEmployeeCommunity({ variables: { ...formData } });
       alert('Employee Community entry created successfully!');
       reset();
-      await refetch();
     } catch (err) {
       console.error('Error creating Employee Community:', err);
       alert(`Error creating Employee Community entry: ${err.message}`);
@@ -29,9 +27,6 @@ const Community = () => {
       setSubmitting(false);
     }
   };
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div>
@@ -110,38 +105,10 @@ const Community = () => {
 
           <div className="form-group"><button type="submit" disabled={submitting}>Send</button></div>
         </form>
-      </div><br />
-
-      <h2 className="center">Community Data</h2>
-      <p className="ems-section-note">
-        Community entries below are loaded from the GraphQL API after submission.
-      </p>
-      <div className="ems-create">
-        {data.employeeCommunities.length === 0 ? (
-          <p>No entries found.</p>
-        ) : (
-          <table className="ems-table">
-            <thead>
-              <tr>
-                <th>Employee Name</th>
-                <th>Department Name</th>
-                <th>Club Name</th>
-                <th>Number of Members</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.employeeCommunities.map(({ id, EmployeeName, DepartmentName, ClubName, NumberOfMembers }) => (
-                <tr key={id}>
-                  <td>{EmployeeName}</td>
-                  <td>{DepartmentName}</td>
-                  <td>{ClubName}</td>
-                  <td>{NumberOfMembers} members</td>
-                </tr>   
-              ))}
-            </tbody>
-          </table>
-        )}
       </div>
+      <p className="ems-section-note">
+        <Link to="/community-data">View Community Data</Link>
+      </p>
       <EmployeeFooter />
     </div>
   );

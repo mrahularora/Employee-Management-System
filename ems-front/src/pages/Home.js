@@ -26,10 +26,10 @@ const Home = () => {
           <h3>Employee Directory</h3>
           <p>Review live employee records, roles, departments, and status.</p>
         </Link>
-        <Link to="/community" className="ems-home-card">
+        <Link to="/community-data" className="ems-home-card">
           <span>02</span>
-          <h3>Community Groups</h3>
-          <p>Create and view internal clubs that keep employees connected.</p>
+          <h3>Community Data</h3>
+          <p>Review internal clubs and group participation records.</p>
         </Link>
         <Link to="/recreation" className="ems-home-card">
           <span>03</span>
