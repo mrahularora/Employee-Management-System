@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import Create from './pages/Create';
@@ -36,6 +36,13 @@ const PageTitle = () => {
 };
 
 function App() {
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("emsTheme") === "dark");
+
+  useEffect(() => {
+    document.body.classList.toggle("dark-mode", darkMode);
+    localStorage.setItem("emsTheme", darkMode ? "dark" : "light");
+  }, [darkMode]);
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -53,6 +60,15 @@ function App() {
           <Route path="*" element={<Error404 />} />
         </Routes>
       </BrowserRouter>
+      <button
+        type="button"
+        className="theme-toggle"
+        onClick={() => setDarkMode((enabled) => !enabled)}
+        aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+        title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+      >
+        <span aria-hidden="true">{darkMode ? "☀" : "☾"}</span>
+      </button>
     </div>
   );
 }
