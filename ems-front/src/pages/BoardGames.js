@@ -10,6 +10,20 @@ const BoardGames = () => {
         <EmployeeNavigation />
         <div className="ems-clear"></div>
           <div className="ems-container game">
+          <section className="ems-info-section">
+            <div>
+              <h2>Board games for team connection</h2>
+              <p>
+                Use these games as quick, low-cost activities for breaks,
+                recreation days, onboarding sessions, or team-building events.
+              </p>
+            </div>
+            <ul>
+              <li>Pick short games for casual breaks.</li>
+              <li>Use strategy games for collaboration and planning practice.</li>
+              <li>Rotate games so different team members can participate.</li>
+            </ul>
+          </section>
           <BoardGamesComponent/>
           <hr className="hr" />
           </div>
