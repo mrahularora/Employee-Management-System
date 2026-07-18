@@ -63,6 +63,9 @@ Update `ems-back/.env`:
 ```env
 MONGO_URI=your_mongodb_connection_string
 PORT=4000
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=change-me
+AUTH_SECRET=change-this-long-random-secret
 ```
 
 The real `.env` file is ignored by Git and should not be committed.

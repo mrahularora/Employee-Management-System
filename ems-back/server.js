@@ -3,6 +3,7 @@ const { ApolloServer } = require("apollo-server-express");
 const connectDB = require("./database/db");
 const typeDefs = require("./graphql/schema/schema");
 const resolvers = require("./graphql/resolvers/resolvers");
+const { verifyToken } = require("./utils/auth");
 
 require("dotenv").config();
 
@@ -13,7 +14,14 @@ async function startServer() {
   await connectDB();
 
   // Create an instance of ApolloServer
-  const server = new ApolloServer({ typeDefs, resolvers });
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: ({ req }) => {
+      const token = req.headers.authorization?.replace("Bearer ", "");
+      return { user: verifyToken(token) };
+    },
+  });
 
   // Starting the Apollo Server
   await server.start();

@@ -28,6 +28,11 @@ const typeDefs = gql`
   activity: String!
   }
 
+  type AuthPayload {
+    token: String!
+    username: String!
+  }
+
   type Query {
     employees: [Employee]
     employeeCommunities: [EmployeeCommunity]
@@ -35,6 +40,10 @@ const typeDefs = gql`
   }
 
   type Mutation {
+    login(
+      username: String!
+      password: String!
+    ): AuthPayload
     createEmployee(
       FirstName: String!
       LastName: String!
