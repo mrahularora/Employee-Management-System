@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
+import Home from "./pages/Home";
 import Create from './pages/Create';
 import ListPage from './pages/ListPage';
 import Recreation from './pages/Recreation';
@@ -14,7 +15,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 const protectedPage = (page) => <ProtectedRoute>{page}</ProtectedRoute>;
 const pageTitles = {
-  "/": "Employee Directory",
+  "/": "Home",
   "/login": "Login",
   "/admin": "Admin Panel",
   "/create": "Add Employee",
@@ -49,7 +50,7 @@ function App() {
         <PageTitle />
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route index element={protectedPage(<ListPage />)} />
+          <Route index element={protectedPage(<Home />)} />
           <Route path="/admin" element={protectedPage(<Admin />)} />
           <Route path="/create" element={protectedPage(<Create />)} />
           <Route path="/listpage" element={protectedPage(<ListPage />)} />

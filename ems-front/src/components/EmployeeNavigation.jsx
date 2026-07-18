@@ -1,31 +1,54 @@
-import { Link } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
+import { useEffect, useState } from "react";
 import { isLoggedIn, logout } from "../auth";
 import "../index.css";
 
 const Navigation = () => {
+  const { pathname } = useLocation();
+  const [recreationOpen, setRecreationOpen] = useState(pathname.startsWith("/recreation"));
+
+  useEffect(() => {
+    setRecreationOpen(pathname.startsWith("/recreation"));
+  }, [pathname]);
+
+  const navClass = ({ isActive }) => (isActive ? "active" : "");
+
   return (
     <nav className="ems-navigation">
-        <ul>
-     
-            <li><Link to="/listpage">Home</Link></li>
-            <li><Link to="/admin">Admin</Link></li>
-            <li><Link to="/create">Add Employee</Link></li>
-            <li><Link to="/community">Community</Link></li>
-            <li className="nav">
-              <Link to="/recreation">Recreation Page <span className="down">&#9660;</span> </Link>
-              <ul className="nav-menu">
-                <li><Link to="/recreation">Overview</Link></li>
-                <li><Link to="/recreation/boardgames">Board Games</Link></li>
-              </ul>
-            </li>
-            {isLoggedIn() && (
-              <li>
-                <button className="nav-button" onClick={() => { logout(); window.location.href = "/login"; }}>
-                  Logout
-                </button>
-              </li>
-            )}
-        </ul>
+      <div className="sidebar-brand">
+        <span>EMS</span>
+        <small>Internal Portal</small>
+      </div>
+      <ul>
+        <li><NavLink to="/" end className={navClass}>Home</NavLink></li>
+        <li><NavLink to="/listpage" className={navClass}>Employee Directory</NavLink></li>
+        <li><NavLink to="/admin" className={navClass}>Admin</NavLink></li>
+        <li><NavLink to="/create" className={navClass}>Add Employee</NavLink></li>
+        <li><NavLink to="/community" className={navClass}>Community</NavLink></li>
+        <li className={`nav ${recreationOpen ? "open" : ""}`}>
+          <button
+            type="button"
+            className="nav-button nav-toggle"
+            onClick={() => setRecreationOpen((open) => !open)}
+            aria-expanded={recreationOpen}
+          >
+            Recreation Page <span className="down">{recreationOpen ? "-" : "+"}</span>
+          </button>
+          {recreationOpen && (
+            <ul className="nav-menu">
+              <li><NavLink to="/recreation" end className={navClass}>Overview</NavLink></li>
+              <li><NavLink to="/recreation/boardgames" className={navClass}>Board Games</NavLink></li>
+            </ul>
+          )}
+        </li>
+        {isLoggedIn() && (
+          <li>
+            <button className="nav-button logout-link" onClick={() => { logout(); window.location.href = "/login"; }}>
+              Logout
+            </button>
+          </li>
+        )}
+      </ul>
     </nav>
   );
 };
