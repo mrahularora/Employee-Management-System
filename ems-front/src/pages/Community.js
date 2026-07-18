@@ -32,79 +32,102 @@ const Community = () => {
     <div>
       <EmployeeHeader />
       <EmployeeNavigation />
-      <div className="ems-clear"></div><br />
-      <h2 className="center">Employee Community</h2>
-      <section className="ems-info-section">
-        <div>
-          <h2>Support employee connection</h2>
-          <p>
-            Track workplace clubs and internal communities so teams can see
-            where employees are involved beyond their day-to-day department work.
-          </p>
+      <div className="ems-clear"></div>
+      <div className="ems-container create-page">
+        <div className="create-layout">
+          <aside className="create-details">
+            <section className="ems-home-hero">
+              <p className="ems-kicker">Employee community</p>
+              <h1>Add a community record.</h1>
+              <p>
+                Register employee-led clubs and team groups so participation is
+                easy to review from the community data page.
+              </p>
+            </section>
+            <section className="ems-info-section">
+              <div>
+                <h2>Before you submit</h2>
+                <p>
+                  Confirm the employee, department, club name, and member count
+                  before saving the community entry.
+                </p>
+              </div>
+              <ul>
+                <li>Use the employee name exactly as it appears internally.</li>
+                <li>Choose the department responsible for the community entry.</li>
+                <li>Member count must stay between 4 and 20.</li>
+              </ul>
+            </section>
+          </aside>
+          <div className="ems-create">
+            <div className="create-form-header">
+              <h2>Community details</h2>
+              <p>All fields are required.</p>
+            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="create-form-grid">
+                <div className="form-group">
+                  <label>Employee Name<span id="red">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="Example: Rahul Arora"
+                    {...register('EmployeeName', {
+                      required: 'Employee Name is required',
+                      maxLength: { value: 32, message: 'Employee Name cannot exceed 32 characters' }
+                    })}
+                  />
+                  {errors.EmployeeName && <p className="error-message">{errors.EmployeeName.message}</p>}
+                </div>
+
+                <div className="form-group">
+                  <label>Department Name<span id="red">*</span></label>
+                  <select
+                    {...register('DepartmentName', { required: 'Department Name is required' })}
+                  >
+                    <option value="">Select Department</option>
+                    <option value="IT">IT</option>
+                    <option value="Security">Security</option>
+                    <option value="Taxation and Accounts">Taxation and Accounts</option>
+                    <option value="Safety">Safety</option>
+                    <option value="Health">Health</option>
+                  </select>
+                  {errors.DepartmentName && <p className="error-message">{errors.DepartmentName.message}</p>}
+                </div>
+
+                <div className="form-group">
+                  <label>Club Name<span id="red">*</span></label>
+                  <input
+                    type="text"
+                    placeholder="Example: Wellness Club"
+                    {...register('ClubName', {
+                      required: 'Club Name is required',
+                      maxLength: { value: 50, message: 'Club Name cannot exceed 50 characters' }
+                    })}
+                  />
+                  {errors.ClubName && <p className="error-message">{errors.ClubName.message}</p>}
+                </div>
+
+                <div className="form-group">
+                  <label>Number of Members<span id="red">*</span></label>
+                  <input
+                    type="number"
+                    min="4"
+                    max="20"
+                    placeholder="4-20"
+                    {...register('NumberOfMembers', {
+                      required: 'Number of Members is required',
+                      min: { value: 4, message: 'Number of Members must be at least 4' },
+                      max: { value: 20, message: 'Number of Members cannot exceed 20' },
+                      valueAsNumber: true
+                    })}
+                  />
+                  {errors.NumberOfMembers && <p className="error-message">{errors.NumberOfMembers.message}</p>}
+                </div>
+              </div>
+              <div className="form-group"><button type="submit" disabled={submitting}>Send</button></div>
+            </form>
+          </div>
         </div>
-        <ul>
-          <li>Register employee-led clubs and groups.</li>
-          <li>Keep department participation visible.</li>
-          <li>Monitor group size for planning and coordination.</li>
-        </ul>
-      </section>
-      <div className="ems-container ems-create">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="form-group">
-            <label>Employee Name:</label><span id="red">*</span>
-            <input 
-              type="text"
-              {...register('EmployeeName', {
-                required: 'Employee Name is required',
-                maxLength: { value: 32, message: 'Employee Name cannot exceed 32 characters' }
-              })}
-            />
-            {errors.EmployeeName && <p className="error-message">{errors.EmployeeName.message}</p>}
-          </div>
-
-          <div className="form-group">
-            <label>Department Name:</label><span id="red">*</span>
-            <select
-              {...register('DepartmentName', { required: 'Department Name is required' })}
-            >
-              <option value="">Select Department</option>
-              <option value="IT">IT</option>
-              <option value="Security">Security</option>
-              <option value="Taxation and Accounts">Taxation and Accounts</option>
-              <option value="Safety">Safety</option>
-              <option value="Health">Health</option>
-            </select>
-            {errors.DepartmentName && <p className="error-message">{errors.DepartmentName.message}</p>}
-          </div>
-
-          <div className="form-group">
-            <label>Club Name:</label><span id="red">*</span>
-            <input 
-              type="text"
-              {...register('ClubName', {
-                required: 'Club Name is required',
-                maxLength: { value: 50, message: 'Club Name cannot exceed 50 characters' }
-              })}
-            />
-            {errors.ClubName && <p className="error-message">{errors.ClubName.message}</p>}
-          </div>
-
-          <div className="form-group">
-            <label>Number of Members:</label><span id="red">*</span>
-            <input 
-              type="number"
-              {...register('NumberOfMembers', {
-                required: 'Number of Members is required',
-                min: { value: 4, message: 'Number of Members must be at least 4' },
-                max: { value: 20, message: 'Number of Members cannot exceed 20' },
-                valueAsNumber: true
-              })}
-            />
-            {errors.NumberOfMembers && <p className="error-message">{errors.NumberOfMembers.message}</p>}
-          </div>
-
-          <div className="form-group"><button type="submit" disabled={submitting}>Send</button></div>
-        </form>
       </div>
       <p className="ems-section-note">
         <Link to="/community-data">View Community Data</Link>
