@@ -7,6 +7,7 @@ import ListPage from './pages/ListPage';
 import Recreation from './pages/Recreation';
 import Community from './pages/Community';
 import CommunityData from "./pages/CommunityData";
+import Metrics from "./pages/Metrics";
 import TicTacToe from './pages/Tictactoe';
 import Error404 from './pages/Error404';
 import BoardGames from "./pages/BoardGames";
@@ -23,6 +24,7 @@ const pageTitles = {
   "/listpage": "Employee Directory",
   "/community": "Community",
   "/community-data": "Community Data",
+  "/metrics": "Metrics",
   "/recreation": "Recreation",
   "/recreation/boardgames": "Board Games",
   "/tictactoe": "Tic Tac Toe",
@@ -59,6 +61,7 @@ function App() {
           <Route path="/recreation" element={protectedPage(<Recreation />)} />
           <Route path="/community" element={protectedPage(<Community />)} />
           <Route path="/community-data" element={protectedPage(<CommunityData />)} />
+          <Route path="/metrics" element={protectedPage(<Metrics />)} />
           <Route path="/tictactoe" element={protectedPage(<TicTacToe />)} />
           <Route path="/recreation/boardgames" element={protectedPage(<BoardGames />)} />
           <Route path="*" element={<Error404 />} />

@@ -361,6 +361,25 @@ body:has(.ems-navigation) {
   line-height: 1.4;
 }
 
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.metrics-grid .ems-home-card {
+  min-height: 135px;
+}
+
+.metrics-grid .ems-home-card span {
+  font-size: 26px;
+}
+
+.metrics-breakdown {
+  width: 100%;
+}
+
 .ems-info-section {
   width: 80%;
   margin: 0 auto 12px;
@@ -793,6 +812,10 @@ body.dark-mode .theme-toggle {
   }
 
   .ems-home-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metrics-grid {
     grid-template-columns: 1fr;
   }
 

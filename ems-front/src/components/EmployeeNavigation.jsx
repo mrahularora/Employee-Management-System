@@ -22,10 +22,11 @@ const Navigation = () => {
       <ul>
         <li><NavLink to="/" end className={navClass}>Home</NavLink></li>
         <li><NavLink to="/listpage" className={navClass}>Employee Directory</NavLink></li>
-        <li><NavLink to="/admin" className={navClass}>Admin</NavLink></li>
         <li><NavLink to="/create" className={navClass}>Add Employee</NavLink></li>
         <li><NavLink to="/community" className={navClass}>Community</NavLink></li>
         <li><NavLink to="/community-data" className={navClass}>Community Data</NavLink></li>
+        <li><NavLink to="/metrics" className={navClass}>Metrics</NavLink></li>
+        <li><NavLink to="/admin" className={navClass}>Admin</NavLink></li>
         <li className={`nav ${recreationOpen ? "open" : ""}`}>
           <button
             type="button"

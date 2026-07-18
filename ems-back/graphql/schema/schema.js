@@ -33,10 +33,25 @@ const typeDefs = gql`
     username: String!
   }
 
+  type DepartmentMetric {
+    name: String!
+    count: Int!
+  }
+
+  type Metrics {
+    totalEmployees: Int!
+    activeEmployees: Int!
+    inactiveEmployees: Int!
+    totalCommunities: Int!
+    totalCommunityMembers: Int!
+    departments: [DepartmentMetric!]!
+  }
+
   type Query {
     employees: [Employee]
     employeeCommunities: [EmployeeCommunity]
     registrations: [Registration]
+    metrics: Metrics!
   }
 
   type Mutation {

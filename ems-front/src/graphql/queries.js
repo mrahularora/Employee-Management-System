@@ -27,3 +27,19 @@ export const GET_EMPLOYEE_COMMUNITIES = gql`
     }
   }
 `;
+
+export const GET_METRICS = gql`
+  query GetMetrics {
+    metrics {
+      totalEmployees
+      activeEmployees
+      inactiveEmployees
+      totalCommunities
+      totalCommunityMembers
+      departments {
+        name
+        count
+      }
+    }
+  }
+`;

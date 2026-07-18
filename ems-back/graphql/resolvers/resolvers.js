@@ -17,6 +17,34 @@ const resolvers = {
       requireAuth(context);
       return Registration.find().exec();
     },
+    metrics: async (_, __, context) => {
+      requireAuth(context);
+      const [
+        totalEmployees,
+        activeEmployees,
+        totalCommunities,
+        communityMembers,
+        departments,
+      ] = await Promise.all([
+        Employee.countDocuments(),
+        Employee.countDocuments({ CurrentStatus: true }),
+        EmployeeCommunity.countDocuments(),
+        EmployeeCommunity.aggregate([{ $group: { _id: null, total: { $sum: "$NumberOfMembers" } } }]),
+        Employee.aggregate([
+          { $group: { _id: "$Department", count: { $sum: 1 } } },
+          { $sort: { count: -1, _id: 1 } },
+        ]),
+      ]);
+
+      return {
+        totalEmployees,
+        activeEmployees,
+        inactiveEmployees: totalEmployees - activeEmployees,
+        totalCommunities,
+        totalCommunityMembers: communityMembers[0]?.total || 0,
+        departments: departments.map(({ _id, count }) => ({ name: _id, count })),
+      };
+    },
   },
   Mutation: {
     login: (_, { username, password }) => {
