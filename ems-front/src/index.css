@@ -24,6 +24,17 @@ body:has(.ems-navigation) {
   padding-left: 220px;
 }
 
+#root,
+.App,
+.App > div:has(.ems-footer) {
+  min-height: 100vh;
+}
+
+.App > div:has(.ems-footer) {
+  display: flex;
+  flex-direction: column;
+}
+
 .divcenter{ padding-top:12px; width: 80%; margin:auto;}
 
 /*EMS HEADER*/
@@ -460,7 +471,7 @@ h3 {
   font-size:14px;
   padding-top: 40px;
   text-align: center;
-  margin-top: 20px;
+  margin-top: auto;
   height: 100px;
 }
 
