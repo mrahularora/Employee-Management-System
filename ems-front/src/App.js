@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import Create from './pages/Create';
 import ListPage from './pages/ListPage';
 import Recreation from './pages/Recreation';
@@ -11,11 +13,33 @@ import Admin from "./pages/Admin";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const protectedPage = (page) => <ProtectedRoute>{page}</ProtectedRoute>;
+const pageTitles = {
+  "/": "Employee Directory",
+  "/login": "Login",
+  "/admin": "Admin Panel",
+  "/create": "Add Employee",
+  "/listpage": "Employee Directory",
+  "/community": "Community",
+  "/recreation": "Recreation",
+  "/recreation/boardgames": "Board Games",
+  "/tictactoe": "Tic Tac Toe",
+};
+
+const PageTitle = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    document.title = `${pageTitles[pathname] || "Page Not Found"} | EMS`;
+  }, [pathname]);
+
+  return null;
+};
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <PageTitle />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route index element={protectedPage(<ListPage />)} />
