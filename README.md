@@ -17,6 +17,7 @@ A full-stack Employee Management System built with React, Apollo Client, Express
 Frontend:
 
 - React 18
+- Vite
 - React Router
 - Apollo Client
 - Bootstrap / React Bootstrap

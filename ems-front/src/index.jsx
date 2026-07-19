@@ -1,11 +1,10 @@
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import ApolloWrapper from "./apolloFront";
 
-ReactDOM.render(
+createRoot(document.getElementById("root")).render(
   <ApolloWrapper>
     <App />
-  </ApolloWrapper>,
-  document.getElementById("root")
+  </ApolloWrapper>
 );
