@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Link } from "react-router-dom";
-import { useMutation } from '@apollo/client';
+import { Link, useSearchParams } from "react-router-dom";
+import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_EMPLOYEE_COMMUNITY } from '../graphql/mutations';
+import { GET_EMPLOYEES, GET_EMPLOYEE_COMMUNITIES, GET_METRICS } from '../graphql/queries';
 import { useForm } from 'react-hook-form';
 import EmployeeHeader from "../components/EmployeeHeader";
 import EmployeeNavigation from "../components/EmployeeNavigation";
@@ -9,17 +10,24 @@ import EmployeeFooter from "../components/EmployeeFooter";
 import "../index.css";
 
 const Community = () => {
-  const [createEmployeeCommunity] = useMutation(CREATE_EMPLOYEE_COMMUNITY);
-
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const [searchParams] = useSearchParams();
+  const { data, loading: employeesLoading, error: employeesError } = useQuery(GET_EMPLOYEES);
+  const employees = data?.employees || [];
+  const [createEmployeeCommunity] = useMutation(CREATE_EMPLOYEE_COMMUNITY, {
+    refetchQueries: [GET_EMPLOYEE_COMMUNITIES, GET_METRICS],
+  });
+  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm({
+    defaultValues: { EmployeeId: searchParams.get("employee") || "" },
+  });
   const [submitting, setSubmitting] = useState(false);
+  const selectedEmployee = employees.find(({ id }) => id === watch("EmployeeId"));
 
   const onSubmit = async (formData) => {
     try {
       setSubmitting(true);
-      await createEmployeeCommunity({ variables: { ...formData } });
+      await createEmployeeCommunity({ variables: formData });
       alert('Employee Community entry created successfully!');
-      reset();
+      reset({ EmployeeId: "", ClubName: "", NumberOfMembers: "" });
     } catch (err) {
       console.error('Error creating Employee Community:', err);
       alert(`Error creating Employee Community entry: ${err.message}`);
@@ -41,20 +49,20 @@ const Community = () => {
               <h1>Add a community record.</h1>
               <p>
                 Register employee-led clubs and team groups so participation is
-                easy to review from the community data page.
+                connected to verified employee directory records.
               </p>
             </section>
             <section className="ems-info-section">
               <div>
                 <h2>Before you submit</h2>
                 <p>
-                  Confirm the employee, department, club name, and member count
-                  before saving the community entry.
+                  Choose a directory employee, then confirm the club name and
+                  member count before saving.
                 </p>
               </div>
               <ul>
-                <li>Use the employee name exactly as it appears internally.</li>
-                <li>Choose the department responsible for the community entry.</li>
+                <li>Employees must be added to the directory first.</li>
+                <li>The employee name and department are synchronized automatically.</li>
                 <li>Member count must stay between 4 and 20.</li>
               </ul>
             </section>
@@ -67,36 +75,40 @@ const Community = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="create-form-grid">
                 <div className="form-group">
-                  <label>Employee Name<span id="red">*</span></label>
-                  <input
-                    type="text"
-                    placeholder="Example: Rahul Arora"
-                    {...register('EmployeeName', {
-                      required: 'Employee Name is required',
-                      maxLength: { value: 32, message: 'Employee Name cannot exceed 32 characters' }
-                    })}
-                  />
-                  {errors.EmployeeName && <p className="error-message">{errors.EmployeeName.message}</p>}
-                </div>
-
-                <div className="form-group">
-                  <label>Department Name<span id="red">*</span></label>
+                  <label htmlFor="EmployeeId">Directory Employee<span id="red">*</span></label>
                   <select
-                    {...register('DepartmentName', { required: 'Department Name is required' })}
+                    id="EmployeeId"
+                    disabled={employeesLoading || Boolean(employeesError)}
+                    {...register('EmployeeId', { required: 'Select an employee from the directory' })}
                   >
-                    <option value="">Select Department</option>
-                    <option value="IT">IT</option>
-                    <option value="Security">Security</option>
-                    <option value="Taxation and Accounts">Taxation and Accounts</option>
-                    <option value="Safety">Safety</option>
-                    <option value="Health">Health</option>
+                    <option value="">
+                      {employeesLoading ? "Loading employees..." : "Select Employee"}
+                    </option>
+                    {employees.map(({ id, FirstName, LastName, Department }) => (
+                      <option key={id} value={id}>
+                        {FirstName} {LastName} - {Department}
+                      </option>
+                    ))}
                   </select>
-                  {errors.DepartmentName && <p className="error-message">{errors.DepartmentName.message}</p>}
+                  {errors.EmployeeId && <p className="error-message">{errors.EmployeeId.message}</p>}
+                  {employeesError && <p className="error-message">Employee directory is unavailable.</p>}
                 </div>
 
                 <div className="form-group">
-                  <label>Club Name<span id="red">*</span></label>
+                  <label htmlFor="CommunityDepartment">Department</label>
                   <input
+                    id="CommunityDepartment"
+                    type="text"
+                    value={selectedEmployee?.Department || ""}
+                    placeholder="Assigned from employee directory"
+                    readOnly
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="ClubName">Club Name<span id="red">*</span></label>
+                  <input
+                    id="ClubName"
                     type="text"
                     placeholder="Example: Wellness Club"
                     {...register('ClubName', {
@@ -108,8 +120,9 @@ const Community = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Number of Members<span id="red">*</span></label>
+                  <label htmlFor="NumberOfMembers">Number of Members<span id="red">*</span></label>
                   <input
+                    id="NumberOfMembers"
                     type="number"
                     min="4"
                     max="20"
@@ -124,7 +137,14 @@ const Community = () => {
                   {errors.NumberOfMembers && <p className="error-message">{errors.NumberOfMembers.message}</p>}
                 </div>
               </div>
-              <div className="form-group"><button type="submit" disabled={submitting}>Send</button></div>
+              <p className="form-help">
+                Employee not listed? <Link to="/create">Add them to the directory first.</Link>
+              </p>
+              <div className="form-group">
+                <button type="submit" disabled={submitting || employeesLoading || !employees.length}>
+                  {submitting ? "Saving..." : "Create Community Record"}
+                </button>
+              </div>
             </form>
           </div>
         </div>

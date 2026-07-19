@@ -20,6 +20,7 @@ export const GET_EMPLOYEE_COMMUNITIES = gql`
   query GetEmployeeCommunities {
     employeeCommunities {
       id
+      EmployeeId
       EmployeeName
       DepartmentName
       ClubName

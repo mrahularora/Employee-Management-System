@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
+import { Link } from "react-router-dom";
 import { CREATE_EMPLOYEE } from "../graphql/mutations";
 import { GET_EMPLOYEES } from "../graphql/queries";
 import "../index.css";
@@ -19,6 +20,7 @@ const EmployeeCreate = () => {
 
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [createdEmployeeId, setCreatedEmployeeId] = useState("");
   const [createEmployee, { loading, error }] = useMutation(CREATE_EMPLOYEE, {
     update(cache, { data: { createEmployee } }) {
       const { employees = [] } = cache.readQuery({ query: GET_EMPLOYEES }) || {};
@@ -27,13 +29,15 @@ const EmployeeCreate = () => {
         data: { employees: [...employees, createEmployee] },
       });
     },
-    onCompleted: () => {
+    onCompleted: ({ createEmployee }) => {
       setSuccessMessage("Employee added successfully!");
       setErrorMessage("");
+      setCreatedEmployeeId(createEmployee.id);
       setFormData(emptyEmployee);
     },
     onError: () => {
       setErrorMessage("Failed to add employee. Please try again.");
+      setCreatedEmployeeId("");
     },
   });
 
@@ -61,6 +65,8 @@ const EmployeeCreate = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
+      setSuccessMessage("");
+      setCreatedEmployeeId("");
       createEmployee({
         variables: {
           ...formData,
@@ -79,7 +85,16 @@ const EmployeeCreate = () => {
         <p>All fields are required.</p>
       </div>
       <form onSubmit={handleSubmit}>
-        {successMessage && <p className="success-message">{successMessage}</p>}
+        {successMessage && (
+          <div className="success-message">
+            <span>{successMessage}</span>
+            {createdEmployeeId && (
+              <Link to={`/community?employee=${createdEmployeeId}`}>
+                Assign community
+              </Link>
+            )}
+          </div>
+        )}
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         {error && <p className="error-message">Error: {error.message}</p>}
 

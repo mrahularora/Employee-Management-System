@@ -15,6 +15,7 @@ const typeDefs = gql`
 
   type EmployeeCommunity {
     id: ID!
+    EmployeeId: ID
     EmployeeName: String!
     DepartmentName: String!
     ClubName: String!
@@ -69,8 +70,7 @@ const typeDefs = gql`
       EmployeeType: String!
     ): Employee
     createEmployeeCommunity(
-      EmployeeName: String!
-      DepartmentName: String!
+      EmployeeId: ID!
       ClubName: String!
       NumberOfMembers: Int!
     ): EmployeeCommunity

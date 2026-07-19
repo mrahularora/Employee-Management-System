@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import { Link } from "react-router-dom";
 import { GET_EMPLOYEE_COMMUNITIES } from "../graphql/queries";
 import EmployeeHeader from "../components/EmployeeHeader";
 import EmployeeNavigation from "../components/EmployeeNavigation";
@@ -38,9 +39,13 @@ const CommunityData = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {communities.map(({ id, EmployeeName, DepartmentName, ClubName, NumberOfMembers }) => (
+                  {communities.map(({ id, EmployeeId, EmployeeName, DepartmentName, ClubName, NumberOfMembers }) => (
                     <tr key={id}>
-                      <td>{EmployeeName}</td>
+                      <td>
+                        {EmployeeId ? (
+                          <Link to={`/listpage?employee=${EmployeeId}`}>{EmployeeName}</Link>
+                        ) : EmployeeName}
+                      </td>
                       <td>{DepartmentName}</td>
                       <td>{ClubName}</td>
                       <td>{NumberOfMembers} members</td>

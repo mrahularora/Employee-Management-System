@@ -685,6 +685,12 @@ body:has(.ems-navigation) {
   box-shadow: 0 0 0 3px rgba(27, 42, 65, 0.12);
 }
 
+.form-group input[readonly] {
+  background-color: #edf2f7;
+  color: #42526e;
+  cursor: not-allowed;
+}
+
 .form-group button[type="submit"] {
   padding: 10px;
   background-color: #1B2A41;
@@ -711,6 +717,18 @@ body:has(.ems-navigation) {
   color: white;
   padding:5px;
   background-color: #27ae60;
+}
+
+.success-message a {
+  margin-left: 10px;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.form-help {
+  margin: 0 0 14px;
+  color: #42526e;
+  font-size: 14px;
 }
 
 .error-message {
@@ -805,6 +823,16 @@ h3 {
 .ems-table tbody tr:hover {
   background-color: #d2dcf2;
   cursor:pointer;
+}
+
+.ems-table tbody tr.selected-row {
+  background-color: #dbeafe;
+  box-shadow: inset 4px 0 #2563eb;
+}
+
+.ems-table a {
+  color: #1d4ed8;
+  font-weight: 700;
 }
 
 .ems-table tbody td.true {
@@ -957,9 +985,14 @@ body.dark-mode .ems-section-note,
 body.dark-mode .chart-legend small,
 body.dark-mode .community-metrics p,
 body.dark-mode .community-stat span,
+body.dark-mode .form-help,
 body.dark-mode .create-form-header p,
 body.dark-mode .login-panel p {
   color: #cbd5e1;
+}
+
+body.dark-mode .form-help a {
+  color: #93c5fd;
 }
 
 body.dark-mode .metrics-donut > div {
@@ -981,12 +1014,25 @@ body.dark-mode select {
   color: #f9fafb;
 }
 
+body.dark-mode .form-group input[readonly] {
+  background-color: #233044;
+  color: #cbd5e1;
+}
+
 body.dark-mode .ems-table tbody tr:nth-child(even) {
   background-color: #243244;
 }
 
 body.dark-mode .ems-table tbody tr:hover {
   background-color: #334155;
+}
+
+body.dark-mode .ems-table tbody tr.selected-row {
+  background-color: #1e3a5f;
+}
+
+body.dark-mode .ems-table a {
+  color: #93c5fd;
 }
 
 body.dark-mode .ems-navigation ul li a:hover,

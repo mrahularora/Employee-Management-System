@@ -44,18 +44,17 @@ export const CREATE_EMPLOYEE = gql`
 
 export const CREATE_EMPLOYEE_COMMUNITY = gql`
   mutation CreateEmployeeCommunity(
-    $EmployeeName: String!
-    $DepartmentName: String!
+    $EmployeeId: ID!
     $ClubName: String!
     $NumberOfMembers: Int!
   ) {
     createEmployeeCommunity(
-      EmployeeName: $EmployeeName
-      DepartmentName: $DepartmentName
+      EmployeeId: $EmployeeId
       ClubName: $ClubName
       NumberOfMembers: $NumberOfMembers
     ) {
       id
+      EmployeeId
       EmployeeName
       DepartmentName
       ClubName

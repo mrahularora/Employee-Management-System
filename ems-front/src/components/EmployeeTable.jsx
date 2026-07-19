@@ -1,9 +1,12 @@
 import { useQuery } from "@apollo/client";
+import { useSearchParams } from "react-router-dom";
 import { GET_EMPLOYEES } from "../graphql/queries";
 import "../index.css";
 
 const EmployeeTable = () => {
   const { loading, error, data } = useQuery(GET_EMPLOYEES);
+  const [searchParams] = useSearchParams();
+  const selectedEmployeeId = searchParams.get("employee");
 
   if (loading) return <p>Loading data...</p>;
   if (error) {
@@ -35,7 +38,10 @@ const EmployeeTable = () => {
         </thead>
         <tbody>
           {data.employees.map((employee) => (
-            <tr key={employee.id}>
+            <tr
+              key={employee.id}
+              className={employee.id === selectedEmployeeId ? "selected-row" : ""}
+            >
               <td>{employee.FirstName}</td>
               <td>{employee.LastName}</td>
               <td>{employee.Age}</td>

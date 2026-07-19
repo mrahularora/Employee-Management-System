@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Employee = require("../../models/Employee");
 const EmployeeCommunity = require('../../models/EmployeeCommunity');
 const Registration = require('../../models/Registration');
@@ -68,11 +69,18 @@ const resolvers = {
       await employee.save();
       return employee;
     },
-    createEmployeeCommunity: async (_, { EmployeeName, DepartmentName, ClubName, NumberOfMembers }, context) => {
+    createEmployeeCommunity: async (_, { EmployeeId, ClubName, NumberOfMembers }, context) => {
       requireAuth(context);
+      if (!mongoose.isObjectIdOrHexString(EmployeeId)) {
+        throw new Error("Selected employee is invalid");
+      }
+      const employee = await Employee.findById(EmployeeId).exec();
+      if (!employee) throw new Error("Selected employee was not found");
+
       const newCommunity = new EmployeeCommunity({
-        EmployeeName,
-        DepartmentName,
+        EmployeeId,
+        EmployeeName: `${employee.FirstName} ${employee.LastName}`.trim(),
+        DepartmentName: employee.Department,
         ClubName,
         NumberOfMembers
       });
