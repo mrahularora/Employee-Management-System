@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const { AuthenticationError } = require("apollo-server-express");
+const { GraphQLError } = require("graphql");
 
 const encode = (value) => Buffer.from(JSON.stringify(value)).toString("base64url");
 const sign = (value) =>
@@ -25,7 +25,11 @@ const verifyToken = (token) => {
 };
 
 const requireAuth = ({ user }) => {
-  if (!user) throw new AuthenticationError("Unauthorized");
+  if (!user) {
+    throw new GraphQLError("Unauthorized", {
+      extensions: { code: "UNAUTHENTICATED" },
+    });
+  }
 };
 
 module.exports = { createToken, requireAuth, verifyToken };

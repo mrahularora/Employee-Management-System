@@ -28,7 +28,7 @@ Backend:
 
 - Node.js
 - Express
-- Apollo Server
+- Apollo Server 5
 - GraphQL
 - MongoDB
 - Mongoose
@@ -46,7 +46,7 @@ Employee Management System/
 
 ## Prerequisites
 
-- Node.js
+- Node.js 20 or newer
 - npm
 - MongoDB Atlas or a local MongoDB connection string
 
