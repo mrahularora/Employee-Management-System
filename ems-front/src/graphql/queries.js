@@ -41,8 +41,17 @@ export const GET_METRICS = gql`
       inactiveEmployees
       totalCommunities
       totalCommunityMembers
+      totalRegistrations
       departments {
         name
+        count
+      }
+      employeeTypes {
+        name
+        count
+      }
+      joiningTrend {
+        month
         count
       }
     }

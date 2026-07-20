@@ -77,13 +77,26 @@ const typeDefs = `#graphql
     count: Int!
   }
 
+  type EmployeeTypeMetric {
+    name: String!
+    count: Int!
+  }
+
+  type MonthlyMetric {
+    month: String!
+    count: Int!
+  }
+
   type Metrics {
     totalEmployees: Int!
     activeEmployees: Int!
     inactiveEmployees: Int!
     totalCommunities: Int!
     totalCommunityMembers: Int!
+    totalRegistrations: Int!
     departments: [DepartmentMetric!]!
+    employeeTypes: [EmployeeTypeMetric!]!
+    joiningTrend: [MonthlyMetric!]!
   }
 
   type AuditLog {

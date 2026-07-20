@@ -452,7 +452,7 @@ body:has(.ems-navigation) {
 
 .metrics-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 14px;
   margin-bottom: 18px;
 }
@@ -486,6 +486,10 @@ body:has(.ems-navigation) {
 
 .metrics-grid .metric-members {
   border-top-color: #7c3aed;
+}
+
+.metrics-grid .metric-registrations {
+  border-top-color: #be123c;
 }
 
 .metrics-charts {
@@ -643,6 +647,48 @@ body:has(.ems-navigation) {
 
 .department-chart li:nth-child(4n + 4) .department-bar-track span {
   background-color: #7c3aed;
+}
+
+.joining-chart {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(42px, 1fr));
+  gap: 12px;
+  min-height: 240px;
+  list-style: none;
+}
+
+.joining-chart li {
+  display: grid;
+  grid-template-rows: auto 180px auto;
+  gap: 7px;
+  align-items: end;
+  min-width: 0;
+  color: #334155;
+  text-align: center;
+}
+
+.joining-chart strong {
+  color: #1B2A41;
+}
+
+.joining-chart small {
+  font-weight: 700;
+}
+
+.joining-bar-track {
+  display: flex;
+  align-items: flex-end;
+  width: min(32px, 100%);
+  height: 180px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 4px 4px 2px 2px;
+  background-color: #e8eef7;
+}
+
+.joining-bar-track span {
+  width: 100%;
+  background-color: #0f766e;
 }
 
 .community-metrics {
@@ -1291,6 +1337,8 @@ body.dark-mode .metrics-donut strong,
 body.dark-mode .chart-legend strong,
 body.dark-mode .department-chart-label,
 body.dark-mode .department-chart-label strong,
+body.dark-mode .joining-chart,
+body.dark-mode .joining-chart strong,
 body.dark-mode .community-stat strong,
 body.dark-mode .ems-create h2,
 body.dark-mode .form-group label,
@@ -1336,6 +1384,10 @@ body.dark-mode .chart-legend li {
 }
 
 body.dark-mode .department-bar-track {
+  background-color: #334155;
+}
+
+body.dark-mode .joining-bar-track {
   background-color: #334155;
 }
 
@@ -1542,5 +1594,13 @@ body.dark-mode .theme-toggle {
   .chart-legend li {
     padding: 10px;
     border-bottom: 0;
+  }
+
+  .joining-chart {
+    gap: 6px;
+  }
+
+  .joining-bar-track {
+    width: min(24px, 100%);
   }
 }

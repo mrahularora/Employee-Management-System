@@ -4,6 +4,9 @@ import EmployeeHeader from "../components/EmployeeHeader";
 import EmployeeNavigation from "../components/EmployeeNavigation";
 import EmployeeFooter from "../components/EmployeeFooter";
 
+const monthFormatter = new Intl.DateTimeFormat(undefined, { month: "short", timeZone: "UTC" });
+const employeeTypeLabel = (value) => value.replace(/([a-z])([A-Z])/g, "$1-$2");
+
 const Metrics = () => {
   const { data, loading, error } = useQuery(GET_METRICS);
   const metrics = data?.metrics;
@@ -14,6 +17,14 @@ const Metrics = () => {
   const largestDepartment = Math.max(
     1,
     ...(metrics?.departments.map(({ count }) => count) || [])
+  );
+  const largestEmployeeType = Math.max(
+    1,
+    ...(metrics?.employeeTypes.map(({ count }) => count) || [])
+  );
+  const largestJoiningMonth = Math.max(
+    1,
+    ...(metrics?.joiningTrend.map(({ count }) => count) || [])
   );
   const averageCommunitySize = metrics?.totalCommunities
     ? Math.round(metrics.totalCommunityMembers / metrics.totalCommunities)
@@ -56,6 +67,10 @@ const Metrics = () => {
               <article className="ems-home-card metric-members">
                 <span>{metrics.totalCommunityMembers}</span>
                 <h3>Memberships</h3>
+              </article>
+              <article className="ems-home-card metric-registrations">
+                <span>{metrics.totalRegistrations}</span>
+                <h3>Activity Registrations</h3>
               </article>
             </section>
 
@@ -127,6 +142,58 @@ const Metrics = () => {
                     ))}
                   </ol>
                 )}
+              </article>
+
+              <article className="metric-chart-card">
+                <header>
+                  <p className="ems-kicker">Work arrangements</p>
+                  <h2>Employees by Type</h2>
+                </header>
+                <ol className="department-chart employment-type-chart">
+                  {metrics.employeeTypes.map(({ name, count }) => (
+                    <li key={name}>
+                      <div className="department-chart-label">
+                        <span>{employeeTypeLabel(name)}</span>
+                        <strong>{count}</strong>
+                      </div>
+                      <div
+                        className="department-bar-track"
+                        role="progressbar"
+                        aria-label={`${employeeTypeLabel(name)}: ${count} employees`}
+                        aria-valuemin="0"
+                        aria-valuemax={largestEmployeeType}
+                        aria-valuenow={count}
+                      >
+                        <span style={{ width: `${(count / largestEmployeeType) * 100}%` }} />
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </article>
+
+              <article className="metric-chart-card">
+                <header>
+                  <p className="ems-kicker">Hiring activity</p>
+                  <h2>New Joiners, Last 6 Months</h2>
+                </header>
+                <ol className="joining-chart" aria-label="New employees by joining month">
+                  {metrics.joiningTrend.map(({ month, count }) => (
+                    <li key={month}>
+                      <strong>{count}</strong>
+                      <div
+                        className="joining-bar-track"
+                        role="progressbar"
+                        aria-label={`${month}: ${count} new employees`}
+                        aria-valuemin="0"
+                        aria-valuemax={largestJoiningMonth}
+                        aria-valuenow={count}
+                      >
+                        <span style={{ height: `${(count / largestJoiningMonth) * 100}%` }} />
+                      </div>
+                      <small>{monthFormatter.format(new Date(`${month}-01T00:00:00Z`))}</small>
+                    </li>
+                  ))}
+                </ol>
               </article>
             </section>
 

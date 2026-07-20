@@ -25,6 +25,12 @@ const employeeKey = ({ FirstName, LastName, DateOfJoining }) => [
   LastName.trim().toLowerCase(),
   new Date(DateOfJoining).toISOString().slice(0, 10),
 ].join("|");
+const recentMonthKeys = () => Array.from({ length: 6 }, (_, index) => {
+  const now = new Date();
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 5 + index, 1))
+    .toISOString()
+    .slice(0, 7);
+});
 const recordAudit = async (context, action, targetType, targetId, summary) => {
   try {
     await AuditLog.create({
@@ -73,12 +79,16 @@ const resolvers = {
     },
     metrics: async (_, __, context) => {
       requireAuth(context);
+      const monthKeys = recentMonthKeys();
       const [
         totalEmployees,
         activeEmployees,
         totalCommunities,
         communityMembers,
         departments,
+        totalRegistrations,
+        employeeTypes,
+        joiningTrend,
       ] = await Promise.all([
         Employee.countDocuments(),
         Employee.countDocuments({ CurrentStatus: true }),
@@ -88,7 +98,17 @@ const resolvers = {
           { $group: { _id: "$Department", count: { $sum: 1 } } },
           { $sort: { count: -1, _id: 1 } },
         ]),
+        Registration.countDocuments(),
+        Employee.aggregate([
+          { $group: { _id: "$EmployeeType", count: { $sum: 1 } } },
+          { $sort: { count: -1, _id: 1 } },
+        ]),
+        Employee.aggregate([
+          { $match: { DateOfJoining: { $gte: new Date(`${monthKeys[0]}-01T00:00:00.000Z`) } } },
+          { $group: { _id: { $dateToString: { format: "%Y-%m", date: "$DateOfJoining" } }, count: { $sum: 1 } } },
+        ]),
       ]);
+      const joinsByMonth = new Map(joiningTrend.map(({ _id, count }) => [_id, count]));
 
       return {
         totalEmployees,
@@ -96,7 +116,10 @@ const resolvers = {
         inactiveEmployees: totalEmployees - activeEmployees,
         totalCommunities,
         totalCommunityMembers: communityMembers[0]?.total || 0,
+        totalRegistrations,
         departments: departments.map(({ _id, count }) => ({ name: _id, count })),
+        employeeTypes: employeeTypes.map(({ _id, count }) => ({ name: _id, count })),
+        joiningTrend: monthKeys.map((month) => ({ month, count: joinsByMonth.get(month) || 0 })),
       };
     },
     users: (_, __, context) => {
