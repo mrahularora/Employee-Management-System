@@ -885,6 +885,18 @@ h3 {
   font-size: 16px;
 }
 
+.audit-action {
+  display: inline-block;
+  padding: 4px 7px;
+  border-radius: 4px;
+  background-color: #e5eefc;
+  color: #1B2A41;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
 .ems-table {
   width: 100%;
   border-collapse: collapse;
@@ -1311,6 +1323,11 @@ body.dark-mode .ems-table tbody tr.selected-row {
 
 body.dark-mode .ems-table a {
   color: #93c5fd;
+}
+
+body.dark-mode .audit-action {
+  background-color: #334155;
+  color: #f9fafb;
 }
 
 body.dark-mode .ems-navigation ul li a:hover,

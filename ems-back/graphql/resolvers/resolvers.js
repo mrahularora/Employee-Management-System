@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { GraphQLError } = require("graphql");
+const AuditLog = require("../../models/AuditLog");
 const Employee = require("../../models/Employee");
 const EmployeeCommunity = require('../../models/EmployeeCommunity');
 const Registration = require('../../models/Registration');
@@ -19,8 +20,24 @@ const invalidLogin = () => new GraphQLError("Invalid username or password", {
 });
 const DUMMY_SALT = "0".repeat(32);
 const DUMMY_HASH = "0".repeat(128);
+const recordAudit = async (context, action, targetType, targetId, summary) => {
+  try {
+    await AuditLog.create({
+      actor: context.user.username,
+      action,
+      targetType,
+      targetId: String(targetId),
+      summary,
+    });
+  } catch (error) {
+    console.error("Unable to write audit log:", error.message);
+  }
+};
 
 const resolvers = {
+  AuditLog: {
+    createdAt: ({ createdAt }) => new Date(createdAt).toISOString(),
+  },
   EmployeeCommunity: {
     employee: ({ EmployeeId }) => EmployeeId || null,
   },
@@ -81,6 +98,10 @@ const resolvers = {
       requireAdmin(context);
       return User.find().sort({ role: 1, username: 1 }).exec();
     },
+    auditLogs: (_, { limit }, context) => {
+      requireAdmin(context);
+      return AuditLog.find().sort({ createdAt: -1 }).limit(Math.min(Math.max(limit, 1), 100)).exec();
+    },
   },
   Mutation: {
     login: async (_, { username, password }) => {
@@ -110,11 +131,13 @@ const resolvers = {
 
       const credentials = await hashPassword(password);
       try {
-        return await User.create({
+        const user = await User.create({
           username: normalizedUsername,
           ...credentials,
           role: role.toLowerCase(),
         });
+        await recordAudit(context, "USER_CREATED", "User", user.id, `Created ${role.toLowerCase()} account ${user.username}`);
+        return user;
       } catch (error) {
         if (error.code === 11000) throw badInput("Username already exists");
         throw error;
@@ -129,12 +152,15 @@ const resolvers = {
 
       const user = await User.findByIdAndUpdate(id, { active }, { new: true }).exec();
       if (!user) throw badInput("User was not found");
+      await recordAudit(context, "USER_STATUS_CHANGED", "User", user.id, `${active ? "Enabled" : "Disabled"} account ${user.username}`);
       return user;
     },
     createEmployee: async (_, { input }, context) => {
       requireAdmin(context);
       try {
-        return await Employee.create({ ...input, CurrentStatus: true });
+        const employee = await Employee.create({ ...input, CurrentStatus: true });
+        await recordAudit(context, "EMPLOYEE_CREATED", "Employee", employee.id, `Created employee ${employee.FirstName} ${employee.LastName}`);
+        return employee;
       } catch (error) {
         if (["ValidationError", "CastError"].includes(error.name)) {
           throw badInput("Employee details are invalid");
@@ -153,6 +179,7 @@ const resolvers = {
         }).exec();
         if (!employee) throw badInput("Employee was not found");
 
+        await recordAudit(context, "EMPLOYEE_UPDATED", "Employee", employee.id, `Updated employee ${employee.FirstName} ${employee.LastName}`);
         return employee;
       } catch (error) {
         if (error.extensions?.code === "BAD_USER_INPUT") throw error;
@@ -172,6 +199,7 @@ const resolvers = {
         { new: true, runValidators: true }
       ).exec();
       if (!employee) throw badInput("Employee was not found");
+      await recordAudit(context, "EMPLOYEE_STATUS_CHANGED", "Employee", employee.id, `${active ? "Activated" : "Deactivated"} employee ${employee.FirstName} ${employee.LastName}`);
       return employee;
     },
     createEmployeeCommunity: async (_, { EmployeeId, ClubName, NumberOfMembers }, context) => {
@@ -193,6 +221,7 @@ const resolvers = {
         NumberOfMembers
       });
       await newCommunity.save();
+      await recordAudit(context, "COMMUNITY_ASSIGNED", "EmployeeCommunity", newCommunity.id, `Assigned ${employee.FirstName} ${employee.LastName} to ${clubName}`);
       return newCommunity.populate("EmployeeId");
     },
     register: async (_, { EmployeeId, activity }, context) => {
@@ -209,6 +238,7 @@ const resolvers = {
 
       try {
         const registration = await Registration.create({ EmployeeId, activity });
+        await recordAudit(context, "ACTIVITY_REGISTERED", "Registration", registration.id, `Registered ${employee.FirstName} ${employee.LastName} for ${activity}`);
         return registration.populate("EmployeeId");
       } catch (error) {
         if (error.code === 11000) throw badInput("This employee is already registered for the activity");

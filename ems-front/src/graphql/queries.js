@@ -60,3 +60,16 @@ export const GET_USERS = gql`
     }
   }
 `;
+
+export const GET_AUDIT_LOGS = gql`
+  query GetAuditLogs {
+    auditLogs(limit: 50) {
+      id
+      actor
+      action
+      targetType
+      summary
+      createdAt
+    }
+  }
+`;

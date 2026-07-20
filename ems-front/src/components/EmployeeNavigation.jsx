@@ -27,6 +27,7 @@ const Navigation = () => {
         <li><NavLink to="/community-data" className={navClass}>Community Data</NavLink></li>
         <li><NavLink to="/metrics" className={navClass}>Metrics</NavLink></li>
         {isAdmin() && <li><NavLink to="/admin" className={navClass}>Admin</NavLink></li>}
+        {isAdmin() && <li><NavLink to="/audit-log" className={navClass}>Audit History</NavLink></li>}
         <li className={`nav ${recreationOpen ? "open" : ""}`}>
           <button
             type="button"

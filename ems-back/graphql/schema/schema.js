@@ -70,12 +70,23 @@ const typeDefs = `#graphql
     departments: [DepartmentMetric!]!
   }
 
+  type AuditLog {
+    id: ID!
+    actor: String!
+    action: String!
+    targetType: String!
+    targetId: String!
+    summary: String!
+    createdAt: String!
+  }
+
   type Query {
     employees: [Employee]
     employeeCommunities: [EmployeeCommunity]
     registrations: [Registration]
     metrics: Metrics!
     users: [User!]!
+    auditLogs(limit: Int = 50): [AuditLog!]!
   }
 
   type Mutation {

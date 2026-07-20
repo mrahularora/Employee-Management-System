@@ -13,6 +13,7 @@ import Error404 from './pages/Error404';
 import BoardGames from "./pages/BoardGames";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
+import AuditLog from "./pages/AuditLog";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const protectedPage = (page, role) => <ProtectedRoute role={role}>{page}</ProtectedRoute>;
@@ -20,6 +21,7 @@ const pageTitles = {
   "/": "Home",
   "/login": "Login",
   "/admin": "Admin Panel",
+  "/audit-log": "Audit History",
   "/create": "Add Employee",
   "/listpage": "Employee Directory",
   "/community": "Community",
@@ -56,6 +58,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route index element={protectedPage(<Home />)} />
           <Route path="/admin" element={protectedPage(<Admin />, "ADMIN")} />
+          <Route path="/audit-log" element={protectedPage(<AuditLog />, "ADMIN")} />
           <Route path="/create" element={protectedPage(<Create />, "ADMIN")} />
           <Route path="/listpage" element={protectedPage(<ListPage />)} />
           <Route path="/recreation" element={protectedPage(<Recreation />)} />
