@@ -934,6 +934,151 @@ h3 {
   font-weight: bold;
 }
 
+.directory-page {
+  width: min(92%, 1280px);
+}
+
+.directory-toolbar {
+  display: grid;
+  grid-template-columns: minmax(240px, 2fr) repeat(3, minmax(150px, 1fr));
+  gap: 12px;
+  padding: 18px;
+  background-color: #ffffff;
+  border: 1px solid #d7e0ee;
+}
+
+.directory-toolbar label,
+.employee-edit-grid label {
+  color: #1B2A41;
+  font-weight: 800;
+}
+
+.directory-toolbar label > span {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.directory-toolbar input,
+.directory-toolbar select,
+.employee-edit-grid input,
+.employee-edit-grid select {
+  width: 100%;
+  height: 42px;
+  padding: 8px 10px;
+  border: 1px solid #b8c4d6;
+  background-color: #ffffff;
+  color: #1B2A41;
+  font: inherit;
+}
+
+.directory-summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 2px;
+  color: #42526e;
+}
+
+.directory-summary span {
+  margin-left: auto;
+  color: #276749;
+  font-weight: 800;
+}
+
+.directory-message {
+  margin: 0 0 14px;
+}
+
+.employee-edit-panel {
+  margin-bottom: 18px;
+  padding: 22px;
+  background-color: #ffffff;
+  border: 1px solid #d7e0ee;
+  border-left: 5px solid #1B2A41;
+}
+
+.employee-edit-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.employee-edit-heading h2 {
+  color: #1B2A41;
+}
+
+.employee-edit-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.employee-edit-grid label {
+  display: grid;
+  gap: 6px;
+}
+
+.directory-table-container {
+  padding: 0;
+  background-color: #ffffff;
+  border: 1px solid #d7e0ee;
+}
+
+.directory-table {
+  min-width: 980px;
+}
+
+.employee-status {
+  display: inline-block;
+  min-width: 66px;
+  padding: 5px 7px;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: 800;
+}
+
+.employee-status.active {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.employee-status.inactive {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.directory-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.directory-actions button {
+  padding: 7px 9px;
+  border: 0;
+  background-color: #d2dcf2;
+  color: #1B2A41;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.directory-actions button:last-child {
+  background-color: #f3e4e4;
+  color: #7f1d1d;
+}
+
+.directory-actions button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.directory-empty {
+  padding: 24px;
+  text-align: center;
+}
+
 .ems-clear{
   content: "";
   display: table;
@@ -1030,7 +1175,10 @@ body.dark-mode .metric-chart-card,
 body.dark-mode .community-metrics,
 body.dark-mode .login-panel,
 body.dark-mode .ems-create,
-body.dark-mode .admin-account-list {
+body.dark-mode .admin-account-list,
+body.dark-mode .directory-toolbar,
+body.dark-mode .employee-edit-panel,
+body.dark-mode .directory-table-container {
   border-color: #334155;
 }
 
@@ -1041,7 +1189,10 @@ body.dark-mode .metric-chart-card,
 body.dark-mode .community-metrics,
 body.dark-mode .login-panel,
 body.dark-mode .ems-create,
-body.dark-mode .paragraph {
+body.dark-mode .paragraph,
+body.dark-mode .directory-toolbar,
+body.dark-mode .employee-edit-panel,
+body.dark-mode .directory-table-container {
   background-color: #1f2937;
 }
 
@@ -1064,6 +1215,9 @@ body.dark-mode .ems-create h2,
 body.dark-mode .form-group label,
 body.dark-mode .login-panel h1,
 body.dark-mode .login-form label,
+body.dark-mode .directory-toolbar label,
+body.dark-mode .employee-edit-grid label,
+body.dark-mode .employee-edit-heading h2,
 body.dark-mode .ems-button.secondary {
   color: #f9fafb;
 }
@@ -1151,6 +1305,11 @@ body.dark-mode .theme-toggle {
     grid-template-columns: 1fr;
   }
 
+  .directory-toolbar,
+  .employee-edit-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .community-metrics {
     grid-template-columns: 1fr 1fr;
   }
@@ -1207,6 +1366,11 @@ body.dark-mode .theme-toggle {
   }
 
   .admin-account-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .directory-toolbar,
+  .employee-edit-grid {
     grid-template-columns: 1fr;
   }
 

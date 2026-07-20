@@ -69,10 +69,12 @@ const EmployeeCreate = () => {
       setCreatedEmployeeId("");
       createEmployee({
         variables: {
-          ...formData,
-          FirstName: formData.FirstName.trim(),
-          LastName: formData.LastName.trim(),
-          Age: Number(formData.Age),
+          input: {
+            ...formData,
+            FirstName: formData.FirstName.trim(),
+            LastName: formData.LastName.trim(),
+            Age: Number(formData.Age),
+          },
         },
       });
     }

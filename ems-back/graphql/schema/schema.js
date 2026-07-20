@@ -11,6 +11,16 @@ const typeDefs = `#graphql
     CurrentStatus: Boolean!
   }
 
+  input EmployeeInput {
+    FirstName: String!
+    LastName: String!
+    Age: Int!
+    DateOfJoining: String!
+    Title: String!
+    Department: String!
+    EmployeeType: String!
+  }
+
   type EmployeeCommunity {
     id: ID!
     EmployeeId: ID
@@ -82,15 +92,9 @@ const typeDefs = `#graphql
       id: ID!
       active: Boolean!
     ): User!
-    createEmployee(
-      FirstName: String!
-      LastName: String!
-      Age: Int!
-      DateOfJoining: String!
-      Title: String!
-      Department: String!
-      EmployeeType: String!
-    ): Employee
+    createEmployee(input: EmployeeInput!): Employee!
+    updateEmployee(id: ID!, input: EmployeeInput!): Employee!
+    setEmployeeStatus(id: ID!, active: Boolean!): Employee!
     createEmployeeCommunity(
       EmployeeId: ID!
       ClubName: String!

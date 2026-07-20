@@ -120,19 +120,54 @@ const resolvers = {
       if (!user) throw badInput("User was not found");
       return user;
     },
-    createEmployee: async (_, { FirstName, LastName, Age, DateOfJoining, Title, Department, EmployeeType }, context) => {
+    createEmployee: async (_, { input }, context) => {
       requireAdmin(context);
-      const employee = new Employee({
-        FirstName,
-        LastName,
-        Age,
-        DateOfJoining,
-        Title,
-        Department,
-        EmployeeType,
-        CurrentStatus: true, // working = true
-      });
-      await employee.save();
+      try {
+        return await Employee.create({ ...input, CurrentStatus: true });
+      } catch (error) {
+        if (["ValidationError", "CastError"].includes(error.name)) {
+          throw badInput("Employee details are invalid");
+        }
+        throw error;
+      }
+    },
+    updateEmployee: async (_, { id, input }, context) => {
+      requireAdmin(context);
+      if (!mongoose.isObjectIdOrHexString(id)) throw badInput("Employee was not found");
+
+      try {
+        const employee = await Employee.findByIdAndUpdate(id, input, {
+          new: true,
+          runValidators: true,
+        }).exec();
+        if (!employee) throw badInput("Employee was not found");
+
+        await EmployeeCommunity.updateMany(
+          { EmployeeId: id },
+          {
+            EmployeeName: `${employee.FirstName} ${employee.LastName}`.trim(),
+            DepartmentName: employee.Department,
+          }
+        );
+        return employee;
+      } catch (error) {
+        if (error.extensions?.code === "BAD_USER_INPUT") throw error;
+        if (["ValidationError", "CastError"].includes(error.name)) {
+          throw badInput("Employee details are invalid");
+        }
+        throw error;
+      }
+    },
+    setEmployeeStatus: async (_, { id, active }, context) => {
+      requireAdmin(context);
+      if (!mongoose.isObjectIdOrHexString(id)) throw badInput("Employee was not found");
+
+      const employee = await Employee.findByIdAndUpdate(
+        id,
+        { CurrentStatus: active },
+        { new: true, runValidators: true }
+      ).exec();
+      if (!employee) throw badInput("Employee was not found");
       return employee;
     },
     createEmployeeCommunity: async (_, { EmployeeId, ClubName, NumberOfMembers }, context) => {

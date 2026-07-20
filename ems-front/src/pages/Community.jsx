@@ -12,7 +12,7 @@ import "../index.css";
 const Community = () => {
   const [searchParams] = useSearchParams();
   const { data, loading: employeesLoading, error: employeesError } = useQuery(GET_EMPLOYEES);
-  const employees = data?.employees || [];
+  const employees = (data?.employees || []).filter(({ CurrentStatus }) => CurrentStatus);
   const [createEmployeeCommunity] = useMutation(CREATE_EMPLOYEE_COMMUNITY, {
     refetchQueries: [GET_EMPLOYEE_COMMUNITIES, GET_METRICS],
   });

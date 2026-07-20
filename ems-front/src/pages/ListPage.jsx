@@ -18,9 +18,9 @@ const ListPage = () => {
           department, employment type, and current status.
         </p>
       </section>
-      <div className="ems-container">
+      <div className="ems-container directory-page">
         <p className="ems-section-note">
-          Start the backend before viewing or adding records.
+          Search and filter the workforce. Administrators can edit profiles and manage employment status.
         </p>
         <EmployeeTable />
         </div>

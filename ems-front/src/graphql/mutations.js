@@ -31,34 +31,43 @@ export const SET_USER_ACTIVE = gql`
   }
 `;
 
+const EMPLOYEE_FIELDS = gql`
+  fragment EmployeeFields on Employee {
+    id
+    FirstName
+    LastName
+    Age
+    DateOfJoining
+    Title
+    Department
+    EmployeeType
+    CurrentStatus
+  }
+`;
+
 export const CREATE_EMPLOYEE = gql`
-  mutation CreateEmployee(
-    $FirstName: String!
-    $LastName: String!
-    $Age: Int!
-    $DateOfJoining: String!
-    $Title: String!
-    $Department: String!
-    $EmployeeType: String!
-  ) {
-    createEmployee(
-      FirstName: $FirstName
-      LastName: $LastName
-      Age: $Age
-      DateOfJoining: $DateOfJoining
-      Title: $Title
-      Department: $Department
-      EmployeeType: $EmployeeType
-    ) {
-      id
-      FirstName
-      LastName
-      Age
-      DateOfJoining
-      Title
-      Department
-      EmployeeType
-      CurrentStatus
+  ${EMPLOYEE_FIELDS}
+  mutation CreateEmployee($input: EmployeeInput!) {
+    createEmployee(input: $input) {
+      ...EmployeeFields
+    }
+  }
+`;
+
+export const UPDATE_EMPLOYEE = gql`
+  ${EMPLOYEE_FIELDS}
+  mutation UpdateEmployee($id: ID!, $input: EmployeeInput!) {
+    updateEmployee(id: $id, input: $input) {
+      ...EmployeeFields
+    }
+  }
+`;
+
+export const SET_EMPLOYEE_STATUS = gql`
+  ${EMPLOYEE_FIELDS}
+  mutation SetEmployeeStatus($id: ID!, $active: Boolean!) {
+    setEmployeeStatus(id: $id, active: $active) {
+      ...EmployeeFields
     }
   }
 `;
