@@ -1238,6 +1238,7 @@ h3 {
 
 .directory-page {
   width: min(92%, 1280px);
+  padding-bottom: 40px;
 }
 
 .directory-toolbar {
@@ -1865,6 +1866,10 @@ body.dark-mode .mobile-nav-toggle {
 
   .sidebar-account {
     padding-bottom: 12px;
+  }
+
+  .directory-page {
+    padding-bottom: 28px;
   }
 
   .ems-home-grid {
