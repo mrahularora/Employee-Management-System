@@ -14,6 +14,7 @@ import BoardGames from "./pages/BoardGames";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import AuditLog from "./pages/AuditLog";
+import Notifications from "./pages/Notifications";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const protectedPage = (page, role) => <ProtectedRoute role={role}>{page}</ProtectedRoute>;
@@ -22,6 +23,7 @@ const pageTitles = {
   "/login": "Login",
   "/admin": "Admin Panel",
   "/audit-log": "Audit History",
+  "/notifications": "Notifications",
   "/create": "Add Employee",
   "/listpage": "Employee Directory",
   "/community": "Community",
@@ -59,6 +61,7 @@ function App() {
           <Route index element={protectedPage(<Home />)} />
           <Route path="/admin" element={protectedPage(<Admin />, "ADMIN")} />
           <Route path="/audit-log" element={protectedPage(<AuditLog />, "ADMIN")} />
+          <Route path="/notifications" element={protectedPage(<Notifications />)} />
           <Route path="/create" element={protectedPage(<Create />, "ADMIN")} />
           <Route path="/listpage" element={protectedPage(<ListPage />)} />
           <Route path="/recreation" element={protectedPage(<Recreation />)} />

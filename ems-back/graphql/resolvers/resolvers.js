@@ -20,6 +20,14 @@ const invalidLogin = () => new GraphQLError("Invalid username or password", {
 });
 const DUMMY_SALT = "0".repeat(32);
 const DUMMY_HASH = "0".repeat(128);
+const NOTIFICATION_ACTIONS = [
+  "EMPLOYEE_CREATED",
+  "EMPLOYEES_IMPORTED",
+  "EMPLOYEE_UPDATED",
+  "EMPLOYEE_STATUS_CHANGED",
+  "COMMUNITY_ASSIGNED",
+  "ACTIVITY_REGISTERED",
+];
 const employeeKey = ({ FirstName, LastName, DateOfJoining }) => [
   FirstName.trim().toLowerCase(),
   LastName.trim().toLowerCase(),
@@ -47,6 +55,10 @@ const recordAudit = async (context, action, targetType, targetId, summary) => {
 
 const resolvers = {
   AuditLog: {
+    createdAt: ({ createdAt }) => new Date(createdAt).toISOString(),
+  },
+  Notification: {
+    message: ({ summary }) => summary,
     createdAt: ({ createdAt }) => new Date(createdAt).toISOString(),
   },
   EmployeeCommunity: {
@@ -129,6 +141,13 @@ const resolvers = {
     auditLogs: (_, { limit }, context) => {
       requireAdmin(context);
       return AuditLog.find().sort({ createdAt: -1 }).limit(Math.min(Math.max(limit, 1), 100)).exec();
+    },
+    notifications: (_, { limit }, context) => {
+      requireAuth(context);
+      return AuditLog.find({ action: { $in: NOTIFICATION_ACTIONS } })
+        .sort({ createdAt: -1 })
+        .limit(Math.min(Math.max(limit, 1), 50))
+        .exec();
     },
   },
   Mutation: {

@@ -109,6 +109,13 @@ const typeDefs = `#graphql
     createdAt: String!
   }
 
+  type Notification {
+    id: ID!
+    action: String!
+    message: String!
+    createdAt: String!
+  }
+
   type Query {
     employees: [Employee]
     employeeCommunities: [EmployeeCommunity]
@@ -116,6 +123,7 @@ const typeDefs = `#graphql
     metrics: Metrics!
     users: [User!]!
     auditLogs(limit: Int = 50): [AuditLog!]!
+    notifications(limit: Int = 20): [Notification!]!
   }
 
   type Mutation {

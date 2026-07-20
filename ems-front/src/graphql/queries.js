@@ -82,3 +82,14 @@ export const GET_AUDIT_LOGS = gql`
     }
   }
 `;
+
+export const GET_NOTIFICATIONS = gql`
+  query GetNotifications {
+    notifications(limit: 20) {
+      id
+      action
+      message
+      createdAt
+    }
+  }
+`;
