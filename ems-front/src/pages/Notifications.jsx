@@ -32,7 +32,7 @@ const Notifications = () => {
       </section>
       <div className="ems-container notifications-page">
         <div className="notifications-toolbar">
-          <strong>{unread} unread</strong>
+          <strong aria-live="polite">{unread} unread</strong>
           <button type="button" className="ems-button secondary" onClick={handleMarkRead} disabled={!unread}>
             Mark All Read
           </button>

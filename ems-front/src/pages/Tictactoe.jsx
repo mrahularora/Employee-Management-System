@@ -5,19 +5,31 @@ import EmployeeNavigation from "../components/EmployeeNavigation";
 import EmployeeFooter from "../components/EmployeeFooter";
 import '../TicTacToe.css';
 
-const Square = ({ value, onClick }) => (
-  <button className="square btn btn-light" onClick={onClick}>
+const Square = ({ value, onClick, index, disabled }) => (
+  <button
+    type="button"
+    className="square btn btn-light"
+    onClick={onClick}
+    disabled={disabled}
+    aria-label={`Square ${index + 1}${value ? ` marked ${value}` : ", empty"}`}
+  >
     {value}
   </button>
 );
 
 const Board = ({ squares, onClick }) => {
+  const winner = calculateWinner(squares);
   const renderSquare = (i) => (
-    <Square value={squares[i]} onClick={() => onClick(i)} />
+    <Square
+      value={squares[i]}
+      onClick={() => onClick(i)}
+      index={i}
+      disabled={Boolean(squares[i] || winner)}
+    />
   );
 
   return (
-    <div>
+    <div role="group" aria-label="Tic Tac Toe board">
       <div className="board-row">
         {renderSquare(0)}{renderSquare(1)}{renderSquare(2)}
       </div>
@@ -128,7 +140,7 @@ const TicTacToe = () => {
     <EmployeeNavigation />
     <section className="ems-info-section">
       <div>
-        <h2>Tic Tac Toe team break</h2>
+        <h1>Tic Tac Toe team break</h1>
         <p>
           A quick two-player game for short recreation breaks, warmups, or
           friendly team challenges during workplace events.
@@ -144,28 +156,30 @@ const TicTacToe = () => {
       {!gameStarted ? (
          <form onSubmit={handleStartGame} className="player-form">
          <div className="form-group">
-           <label>
-             Player X Name:
-             
-           </label><input
+           <label htmlFor="player-x">Player X Name</label>
+           <input
+               id="player-x"
                type="text"
                placeholder="Player X Name"
                className="form-control"
                value={playerXName}
                onChange={(e) => setPlayerXName(e.target.value)}
+               maxLength="30"
+               autoComplete="off"
                required
              />
          </div>
          <div className="form-group">
-           <label>
-             Player O Name:
-            
-           </label> <input
+           <label htmlFor="player-o">Player O Name</label>
+           <input
+               id="player-o"
                type="text"
                className="form-control"
                placeholder="Player O Name"
                value={playerOName}
                onChange={(e) => setPlayerOName(e.target.value)}
+               maxLength="30"
+               autoComplete="off"
                required
              />
          </div>
@@ -175,8 +189,8 @@ const TicTacToe = () => {
         <>
           <div className="game-info text-center">
             <h3>{playerX} (X) vs {playerO} (O)</h3>
-            <div className="status">{status}</div>
-            <div className="score">
+            <div className="status" role="status" aria-live="polite">{status}</div>
+            <div className="score" aria-live="polite">
               {playerX} (X): {scoreX} - {playerO} (O): {scoreO}
             </div>
            
@@ -185,7 +199,7 @@ const TicTacToe = () => {
             <Board squares={squares} onClick={handleClick} />
           </div>
 
-          <button className="reset-button btn btn-warning" onClick={handleReset}>Reset</button>
+          <button type="button" className="reset-button btn btn-warning" onClick={handleReset}>Reset</button>
         </>
       )}
     </div>

@@ -14,6 +14,7 @@ import "../index.css";
 const Navigation = () => {
   const { pathname } = useLocation();
   const [recreationOpen, setRecreationOpen] = useState(pathname.startsWith("/recreation"));
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [readAt, setReadAt] = useState(getNotificationsReadAt);
   const loggedIn = isLoggedIn();
   const { data: notificationData } = useQuery(GET_NOTIFICATIONS, {
@@ -25,6 +26,7 @@ const Navigation = () => {
 
   useEffect(() => {
     setRecreationOpen(pathname.startsWith("/recreation"));
+    setMobileOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -36,12 +38,24 @@ const Navigation = () => {
   const navClass = ({ isActive }) => (isActive ? "active" : "");
 
   return (
-    <nav className="ems-navigation">
+    <nav className="ems-navigation" aria-label="Primary navigation">
       <div className="sidebar-brand">
-        <span>EMS</span>
-        <small>Internal Portal</small>
+        <div className="sidebar-brand-copy">
+          <span>EMS</span>
+          <small>Internal Portal</small>
+        </div>
+        <button
+          type="button"
+          className="mobile-nav-toggle"
+          onClick={() => setMobileOpen((open) => !open)}
+          aria-controls="ems-primary-nav"
+          aria-expanded={mobileOpen}
+          aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
+        >
+          <span aria-hidden="true">{mobileOpen ? "\u2715" : "\u2630"}</span>
+        </button>
       </div>
-      <ul>
+      <ul id="ems-primary-nav" className={mobileOpen ? "mobile-open" : ""}>
         <li><NavLink to="/" end className={navClass}>Home</NavLink></li>
         <li><NavLink to="/listpage" className={navClass}>Employee Directory</NavLink></li>
         {isAdmin() && <li><NavLink to="/create" className={navClass}>Add Employee</NavLink></li>}
@@ -78,7 +92,7 @@ const Navigation = () => {
         </li>
         {loggedIn && (
           <li>
-            <button className="nav-button logout-link" onClick={() => { logout(); window.location.href = "/login"; }}>
+            <button type="button" className="nav-button logout-link" onClick={() => { logout(); window.location.href = "/login"; }}>
               Logout
             </button>
           </li>

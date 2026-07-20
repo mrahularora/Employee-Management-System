@@ -74,8 +74,8 @@ const EmployeeTransfer = () => {
         </button>
       </div>
       {fileName && rows.length > 0 && <p className="ems-section-note">{fileName} is ready to import.</p>}
-      {message && <p className="success-message directory-message">{message}</p>}
-      {fileError && <p className="error-message directory-message">{fileError}</p>}
+      {message && <p className="success-message directory-message" role="status">{message}</p>}
+      {fileError && <p className="error-message directory-message" role="alert">{fileError}</p>}
     </section>
   );
 };

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const BoardGamesComponent = () => {
   return (
     <div>
-      <h1 className="center">Board Games</h1>
+      <h2 className="center">Board Games</h2>
       <ul>
         <li><Link to="/tictactoe">Tic Tac Toe</Link> - A simple game where players take turns marking spaces in a 3x3 grid, aiming to get three of their marks in a row.</li>
         <li>Catan (formerly known as Settlers of Catan) - A strategy game where players collect resources and build settlements on a fictional island.</li>

@@ -40,6 +40,7 @@ const Login = () => {
               value={formData.username}
               onChange={handleChange}
               placeholder="admin"
+              autoComplete="username"
               required
             />
           </div>
@@ -52,10 +53,11 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               placeholder="Enter password"
+              autoComplete="current-password"
               required
             />
           </div>
-          {error && <p className="error-message">Invalid username or password.</p>}
+          {error && <p className="error-message" role="alert">Invalid username or password.</p>}
           <button type="submit" className="ems-button" disabled={loading}>
             {loading ? "Signing in..." : "Sign In"}
           </button>

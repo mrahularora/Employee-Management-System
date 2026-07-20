@@ -12,7 +12,7 @@ const BoardGames = () => {
           <div className="ems-container game">
           <section className="ems-info-section">
             <div>
-              <h2>Board games for team connection</h2>
+              <h1>Board games for team connection</h1>
               <p>
                 Use these games as quick, low-cost activities for breaks,
                 recreation days, onboarding sessions, or team-building events.

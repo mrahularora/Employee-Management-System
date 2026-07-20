@@ -2,9 +2,9 @@ import "../index.css";
 
 const EmployeeHeader = () => {
   return (
-    <div className="ems-header">
+    <header className="ems-header">
         Employee Management System
-    </div>
+    </header>
   );
 };
 

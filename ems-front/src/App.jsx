@@ -54,7 +54,7 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <PageTitle />
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -80,7 +80,7 @@ function App() {
         aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
         title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
       >
-        <span aria-hidden="true">{darkMode ? "☀" : "☾"}</span>
+        <span aria-hidden="true">{darkMode ? "\u2600" : "\u263E"}</span>
       </button>
     </div>
   );

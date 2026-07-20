@@ -21,7 +21,7 @@ const EmployeeCreate = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [createdEmployeeId, setCreatedEmployeeId] = useState("");
-  const [createEmployee, { loading, error }] = useMutation(CREATE_EMPLOYEE, {
+  const [createEmployee, { loading }] = useMutation(CREATE_EMPLOYEE, {
     update(cache, { data: { createEmployee } }) {
       const { employees = [] } = cache.readQuery({ query: GET_EMPLOYEES }) || {};
       cache.writeQuery({
@@ -88,7 +88,7 @@ const EmployeeCreate = () => {
       </div>
       <form onSubmit={handleSubmit}>
         {successMessage && (
-          <div className="success-message">
+          <div className="success-message" role="status">
             <span>{successMessage}</span>
             {createdEmployeeId && (
               <Link to={`/community?employee=${createdEmployeeId}`}>
@@ -97,12 +97,11 @@ const EmployeeCreate = () => {
             )}
           </div>
         )}
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        {error && <p className="error-message">Error: {error.message}</p>}
+        {errorMessage && <p className="error-message" role="alert">{errorMessage}</p>}
 
         <div className="create-form-grid">
         <div className="form-group">
-          <label htmlFor="FirstName">First Name<span id="red">*</span></label>
+          <label htmlFor="FirstName">First Name<span className="required-mark" aria-hidden="true">*</span></label>
           <input
             type="text"
             id="FirstName"
@@ -110,12 +109,14 @@ const EmployeeCreate = () => {
             value={formData.FirstName}
             onChange={handleChange}
             placeholder="Example: Rahul"
+            autoComplete="given-name"
+            maxLength="80"
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="LastName">Last Name<span id="red">*</span></label>
+          <label htmlFor="LastName">Last Name<span className="required-mark" aria-hidden="true">*</span></label>
           <input
             type="text"
             id="LastName"
@@ -123,12 +124,14 @@ const EmployeeCreate = () => {
             value={formData.LastName}
             onChange={handleChange}
             placeholder="Example: Arora"
+            autoComplete="family-name"
+            maxLength="80"
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="Age">Age<span id="red">*</span></label>
+          <label htmlFor="Age">Age<span className="required-mark" aria-hidden="true">*</span></label>
           <input
             type="number"
             id="Age"
@@ -143,7 +146,7 @@ const EmployeeCreate = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="DateOfJoining">Date of Joining<span id="red">*</span></label>
+          <label htmlFor="DateOfJoining">Date of Joining<span className="required-mark" aria-hidden="true">*</span></label>
           <input
             type="date"
             id="DateOfJoining"
@@ -155,7 +158,7 @@ const EmployeeCreate = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="Title">Title<span id="red">*</span></label>
+          <label htmlFor="Title">Title<span className="required-mark" aria-hidden="true">*</span></label>
           <select
             id="Title"
             name="Title"
@@ -172,7 +175,7 @@ const EmployeeCreate = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="Department">Department<span id="red">*</span></label>
+          <label htmlFor="Department">Department<span className="required-mark" aria-hidden="true">*</span></label>
           <select
             id="Department"
             name="Department"
@@ -189,7 +192,7 @@ const EmployeeCreate = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="EmployeeType">Employee Type<span id="red">*</span></label>
+          <label htmlFor="EmployeeType">Employee Type<span className="required-mark" aria-hidden="true">*</span></label>
           <select
             id="EmployeeType"
             name="EmployeeType"

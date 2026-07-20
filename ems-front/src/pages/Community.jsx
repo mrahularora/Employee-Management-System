@@ -20,17 +20,20 @@ const Community = () => {
     defaultValues: { EmployeeId: searchParams.get("employee") || "" },
   });
   const [submitting, setSubmitting] = useState(false);
+  const [notice, setNotice] = useState("");
+  const [submitError, setSubmitError] = useState("");
   const selectedEmployee = employees.find(({ id }) => id === watch("EmployeeId"));
 
   const onSubmit = async (formData) => {
     try {
       setSubmitting(true);
+      setNotice("");
+      setSubmitError("");
       await createEmployeeCommunity({ variables: formData });
-      alert('Employee Community entry created successfully!');
+      setNotice("Community record created successfully.");
       reset({ EmployeeId: "", ClubName: "", NumberOfMembers: "" });
     } catch (err) {
-      console.error('Error creating Employee Community:', err);
-      alert(`Error creating Employee Community entry: ${err.message}`);
+      setSubmitError(err.message);
     } finally {
       setSubmitting(false);
     }
@@ -73,9 +76,11 @@ const Community = () => {
               <p>All fields are required.</p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
+              {notice && <p className="success-message" role="status">{notice}</p>}
+              {submitError && <p className="error-message" role="alert">{submitError}</p>}
               <div className="create-form-grid">
                 <div className="form-group">
-                  <label htmlFor="EmployeeId">Directory Employee<span id="red">*</span></label>
+                  <label htmlFor="EmployeeId">Directory Employee<span className="required-mark" aria-hidden="true">*</span></label>
                   <select
                     id="EmployeeId"
                     disabled={employeesLoading || Boolean(employeesError)}
@@ -90,8 +95,8 @@ const Community = () => {
                       </option>
                     ))}
                   </select>
-                  {errors.EmployeeId && <p className="error-message">{errors.EmployeeId.message}</p>}
-                  {employeesError && <p className="error-message">Employee directory is unavailable.</p>}
+                  {errors.EmployeeId && <p className="error-message" role="alert">{errors.EmployeeId.message}</p>}
+                  {employeesError && <p className="error-message" role="alert">Employee directory is unavailable.</p>}
                 </div>
 
                 <div className="form-group">
@@ -106,7 +111,7 @@ const Community = () => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="ClubName">Club Name<span id="red">*</span></label>
+                  <label htmlFor="ClubName">Club Name<span className="required-mark" aria-hidden="true">*</span></label>
                   <input
                     id="ClubName"
                     type="text"
@@ -116,11 +121,11 @@ const Community = () => {
                       maxLength: { value: 50, message: 'Club Name cannot exceed 50 characters' }
                     })}
                   />
-                  {errors.ClubName && <p className="error-message">{errors.ClubName.message}</p>}
+                  {errors.ClubName && <p className="error-message" role="alert">{errors.ClubName.message}</p>}
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="NumberOfMembers">Number of Members<span id="red">*</span></label>
+                  <label htmlFor="NumberOfMembers">Number of Members<span className="required-mark" aria-hidden="true">*</span></label>
                   <input
                     id="NumberOfMembers"
                     type="number"
@@ -134,7 +139,7 @@ const Community = () => {
                       valueAsNumber: true
                     })}
                   />
-                  {errors.NumberOfMembers && <p className="error-message">{errors.NumberOfMembers.message}</p>}
+                  {errors.NumberOfMembers && <p className="error-message" role="alert">{errors.NumberOfMembers.message}</p>}
                 </div>
               </div>
               <p className="form-help">

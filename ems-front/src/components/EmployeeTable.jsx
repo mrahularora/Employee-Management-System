@@ -168,8 +168,8 @@ const EmployeeTable = () => {
         <span>{employees.filter(({ CurrentStatus }) => CurrentStatus).length} active</span>
       </div>
 
-      {notice && <p className="success-message directory-message">{notice}</p>}
-      {actionError && <p className="error-message directory-message">{actionError}</p>}
+      {notice && <p className="success-message directory-message" role="status">{notice}</p>}
+      {actionError && <p className="error-message directory-message" role="alert">{actionError}</p>}
 
       {editing && (
         <form className="employee-edit-panel" onSubmit={handleUpdate}>

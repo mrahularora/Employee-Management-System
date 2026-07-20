@@ -43,15 +43,18 @@ const RegistrationForm = () => {
     <section className="activity-registration">
       <h3>Register for an Activity</h3>
       <p>Select an active employee record so registration details stay connected to the directory.</p>
-      {submitted && <p className="success-message">Activity registration completed.</p>}
+      {submitted && <p className="success-message" role="status">Activity registration completed.</p>}
       <form className="activity-registration-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="registration-employee">Employee <span id="red">*</span></label>
+          <label htmlFor="registration-employee">Employee <span className="required-mark" aria-hidden="true">*</span></label>
           <select
             id="registration-employee"
             value={formData.EmployeeId}
             onChange={(event) => setFormData({ ...formData, EmployeeId: event.target.value })}
             disabled={employeesLoading}
+            required
+            aria-invalid={Boolean(errors.EmployeeId)}
+            aria-describedby={errors.EmployeeId ? "registration-employee-error" : undefined}
           >
             <option value="">{employeesLoading ? "Loading employees..." : "Select an employee"}</option>
             {employees.map((employee) => (
@@ -60,26 +63,29 @@ const RegistrationForm = () => {
               </option>
             ))}
           </select>
-          {errors.EmployeeId && <p className="field-error">{errors.EmployeeId}</p>}
+          {errors.EmployeeId && <p id="registration-employee-error" className="field-error" role="alert">{errors.EmployeeId}</p>}
         </div>
         <div className="form-group">
-          <label htmlFor="registration-activity">Activity <span id="red">*</span></label>
+          <label htmlFor="registration-activity">Activity <span className="required-mark" aria-hidden="true">*</span></label>
           <select
             id="registration-activity"
             value={formData.activity}
             onChange={(event) => setFormData({ ...formData, activity: event.target.value })}
+            required
+            aria-invalid={Boolean(errors.activity)}
+            aria-describedby={errors.activity ? "registration-activity-error" : undefined}
           >
             <option value="">Select an activity</option>
             {activities.map((activity) => <option key={activity} value={activity}>{activity}</option>)}
           </select>
-          {errors.activity && <p className="field-error">{errors.activity}</p>}
+          {errors.activity && <p id="registration-activity-error" className="field-error" role="alert">{errors.activity}</p>}
         </div>
         <button type="submit" className="ems-button" disabled={loading || employeesLoading}>
           {loading ? "Registering..." : "Register"}
         </button>
       </form>
-      {employeesError && <p className="field-error">Unable to load active employees.</p>}
-      {submissionError && <p className="field-error">{submissionError}</p>}
+      {employeesError && <p className="field-error" role="alert">Unable to load active employees.</p>}
+      {submissionError && <p className="field-error" role="alert">{submissionError}</p>}
     </section>
   );
 };

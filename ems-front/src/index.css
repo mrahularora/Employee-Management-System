@@ -14,10 +14,15 @@ body {
 
 body {
   margin: 0;
-  font-family: calibri;
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #EBF2FA;
+}
+
+:where(a, button, input, select):focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
 }
 
 body:has(.ems-navigation) {
@@ -62,26 +67,41 @@ body:has(.ems-navigation) {
 }
 
 .sidebar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   padding: 12px 12px 18px;
   margin-bottom: 8px;
   border-bottom: 1px solid #c9d6ea;
   color: #1B2A41;
 }
 
-.sidebar-brand span,
-.sidebar-brand small {
+.sidebar-brand-copy span,
+.sidebar-brand-copy small {
   display: block;
 }
 
-.sidebar-brand span {
+.sidebar-brand-copy span {
   font-size: 24px;
   font-weight: 900;
 }
 
-.sidebar-brand small {
+.sidebar-brand-copy small {
   margin-top: 2px;
   color: #42526e;
   font-size: 13px;
+}
+
+.mobile-nav-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background-color: transparent;
+  color: #1B2A41;
+  font-size: 24px;
+  cursor: pointer;
 }
 
 .ems-navigation ul {
@@ -176,7 +196,6 @@ body:has(.ems-navigation) {
   padding: 10px;
   font-size: 15px;
   border: 1px solid #ddd;
-  outline: none;
 }
 
 .search-form button[type="submit"] {
@@ -193,8 +212,8 @@ body:has(.ems-navigation) {
   background-color: #27ae60;
 }
 
-#red{
-  color:red;
+.required-mark {
+  color: #b91c1c;
 }
 /* EMS Create */
 
@@ -765,6 +784,7 @@ body:has(.ems-navigation) {
   border: 1px solid #d7e0ee;
 }
 
+.ems-info-section h1,
 .ems-info-section h2 {
   margin-bottom: 8px;
   color: #1B2A41;
@@ -831,7 +851,6 @@ body:has(.ems-navigation) {
   width: 100%;
   transition: border-color 0.3s ease;
   margin-bottom: 16px;
-  outline: none;
 }
 
 .form-group input:focus,
@@ -871,7 +890,7 @@ body:has(.ems-navigation) {
 .success-message {
   color: white;
   padding:5px;
-  background-color: #27ae60;
+  background-color: #166534;
 }
 
 .success-message a {
@@ -887,7 +906,7 @@ body:has(.ems-navigation) {
 }
 
 .error-message {
-  color: red;
+  color: #b91c1c;
 }
 
 /* EMS-Gallery */
@@ -1364,7 +1383,6 @@ h3 {
   padding: 10px 12px;
   border: 1px solid #b8c4d6;
   font-size: 15px;
-  outline: none;
 }
 
 .login-form input:focus {
@@ -1423,6 +1441,7 @@ body.dark-mode .nav-button,
 body.dark-mode .sidebar-brand,
 body.dark-mode .ems-home-hero h1,
 body.dark-mode .ems-home-card,
+body.dark-mode .ems-info-section h1,
 body.dark-mode .ems-info-section h2,
 body.dark-mode .metric-chart-card h2,
 body.dark-mode .community-metrics h2,
@@ -1546,6 +1565,12 @@ body.dark-mode .notification-list time {
   color: #cbd5e1;
 }
 
+body.dark-mode .error-message,
+body.dark-mode .field-error,
+body.dark-mode .required-mark {
+  color: #fca5a5;
+}
+
 body.dark-mode .ems-navigation ul li a:hover,
 body.dark-mode .ems-navigation ul li a.active,
 body.dark-mode .nav-toggle:hover,
@@ -1556,6 +1581,10 @@ body.dark-mode .nav.open .nav-toggle {
 body.dark-mode .theme-toggle {
   background-color: #f9fafb;
   color: #1B2A41;
+}
+
+body.dark-mode .mobile-nav-toggle {
+  color: #f9fafb;
 }
 
 @media (max-width: 1100px) {
@@ -1608,7 +1637,27 @@ body.dark-mode .theme-toggle {
     border-bottom: 1px solid #ccc;
   }
 
-  .ems-navigation ul,
+  .sidebar-brand {
+    width: 92%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .mobile-nav-toggle {
+    display: grid;
+    place-items: center;
+  }
+
+  .ems-navigation > ul {
+    display: none;
+    margin: 0 auto;
+  }
+
+  .ems-navigation > ul.mobile-open {
+    display: block;
+  }
+
+  .ems-navigation > ul,
   .ems-container,
   .ems-home-hero,
   .ems-home-grid,
@@ -1725,5 +1774,16 @@ body.dark-mode .theme-toggle {
   .notification-list li {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

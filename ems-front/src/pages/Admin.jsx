@@ -127,8 +127,8 @@ const Admin = () => {
                 <option value="ADMIN">Administrator</option>
               </select>
             </div>
-            {createError && <p className="error-message">{createError.message}</p>}
-            {notice && <p className="success-message">{notice}</p>}
+            {createError && <p className="error-message" role="alert">{createError.message}</p>}
+            {notice && <p className="success-message" role="status">{notice}</p>}
             <button type="submit" className="ems-button" disabled={creating}>
               {creating ? "Creating..." : "Create Account"}
             </button>
@@ -139,8 +139,8 @@ const Admin = () => {
               <span>{data?.users?.length || 0} total</span>
             </div>
             {loading && <p>Loading accounts...</p>}
-            {error && <p className="error-message">Unable to load accounts.</p>}
-            {updateError && <p className="error-message">{updateError.message}</p>}
+            {error && <p className="error-message" role="alert">Unable to load accounts.</p>}
+            {updateError && <p className="error-message" role="alert">{updateError.message}</p>}
             {!loading && !error && (
               <div className="ems-table-container">
                 <table className="ems-table">
