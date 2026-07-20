@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { LOGIN } from "../graphql/mutations";
 import { saveLogin } from "../auth";
 import "../index.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [login, { loading, error }] = useMutation(LOGIN, {
     onCompleted: ({ login }) => {
@@ -30,6 +31,9 @@ const Login = () => {
         <p className="ems-kicker">Internal access</p>
         <h1>Employee Management System</h1>
         <p className="login-copy">Sign in with your organization account to continue.</p>
+        {searchParams.get("session") === "expired" && (
+          <p className="error-message" role="alert">Your session expired. Sign in again.</p>
+        )}
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="username">Username</label>

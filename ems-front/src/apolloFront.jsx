@@ -1,6 +1,7 @@
-import { ApolloClient, createHttpLink, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { ApolloClient, createHttpLink, from, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { getToken } from "./auth";
+import { onError } from "@apollo/client/link/error";
+import { getToken, logout } from "./auth";
 
 const httpLink = createHttpLink({
   uri: import.meta.env.VITE_API_URL || "http://localhost:4000/graphql",
@@ -11,9 +12,16 @@ const authLink = setContext((_, { headers }) => ({
     authorization: getToken() ? `Bearer ${getToken()}` : "",
   },
 }));
+const errorLink = onError(({ graphQLErrors }) => {
+  const sessionExpired = graphQLErrors?.some(({ extensions }) => extensions?.code === "UNAUTHENTICATED");
+  if (sessionExpired && window.location.pathname !== "/login") {
+    logout();
+    window.location.replace("/login?session=expired");
+  }
+});
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: from([errorLink, authLink, httpLink]),
   cache: new InMemoryCache(),
 });
 
