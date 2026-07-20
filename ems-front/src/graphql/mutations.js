@@ -54,6 +54,15 @@ export const CREATE_EMPLOYEE = gql`
   }
 `;
 
+export const IMPORT_EMPLOYEES = gql`
+  mutation ImportEmployees($rows: [EmployeeImportInput!]!) {
+    importEmployees(rows: $rows) {
+      imported
+      skipped
+    }
+  }
+`;
+
 export const UPDATE_EMPLOYEE = gql`
   ${EMPLOYEE_FIELDS}
   mutation UpdateEmployee($id: ID!, $input: EmployeeInput!) {

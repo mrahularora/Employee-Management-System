@@ -8,9 +8,9 @@ const EmployeeSchema = new mongoose.Schema(
     LastName: requiredText,
     Age: { type: Number, required: true, min: 20, max: 70 },
     DateOfJoining: { type: Date, required: true },
-    Title: requiredText,
-    Department: requiredText,
-    EmployeeType: requiredText,
+    Title: { ...requiredText, enum: ["Employee", "Manager", "Director", "VP"] },
+    Department: { ...requiredText, enum: ["IT", "Marketing", "HR", "Engineering"] },
+    EmployeeType: { ...requiredText, enum: ["FullTime", "PartTime", "Contract", "Seasonal"] },
     CurrentStatus: { type: Boolean, default: true },
   },
   { timestamps: true }

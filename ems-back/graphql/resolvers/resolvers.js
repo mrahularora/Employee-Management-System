@@ -20,6 +20,11 @@ const invalidLogin = () => new GraphQLError("Invalid username or password", {
 });
 const DUMMY_SALT = "0".repeat(32);
 const DUMMY_HASH = "0".repeat(128);
+const employeeKey = ({ FirstName, LastName, DateOfJoining }) => [
+  FirstName.trim().toLowerCase(),
+  LastName.trim().toLowerCase(),
+  new Date(DateOfJoining).toISOString().slice(0, 10),
+].join("|");
 const recordAudit = async (context, action, targetType, targetId, summary) => {
   try {
     await AuditLog.create({
@@ -167,6 +172,43 @@ const resolvers = {
         }
         throw error;
       }
+    },
+    importEmployees: async (_, { rows }, context) => {
+      requireAdmin(context);
+      if (!rows.length || rows.length > 100) {
+        throw badInput("Import must contain between 1 and 100 employees");
+      }
+
+      const unique = [];
+      const seen = new Set();
+      rows.forEach((row, index) => {
+        const employee = new Employee(row);
+        if (employee.validateSync()) throw badInput(`CSV row ${index + 2} contains invalid employee details`);
+        const key = employeeKey(employee);
+        if (!seen.has(key)) {
+          seen.add(key);
+          unique.push(employee);
+        }
+      });
+
+      const existing = await Employee.find({
+        $or: unique.map(({ FirstName, LastName, DateOfJoining }) => ({ FirstName, LastName, DateOfJoining })),
+      }).collation({ locale: "en", strength: 2 }).exec();
+      const existingKeys = new Set(existing.map(employeeKey));
+      const pending = unique.filter((employee) => !existingKeys.has(employeeKey(employee)));
+      const imported = pending.length ? await Employee.insertMany(pending) : [];
+      const skipped = rows.length - imported.length;
+
+      if (imported.length) {
+        await recordAudit(
+          context,
+          "EMPLOYEES_IMPORTED",
+          "Employee",
+          "bulk",
+          `Imported ${imported.length} employees${skipped ? `; skipped ${skipped} duplicates` : ""}`
+        );
+      }
+      return { imported: imported.length, skipped };
     },
     updateEmployee: async (_, { id, input }, context) => {
       requireAdmin(context);

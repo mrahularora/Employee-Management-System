@@ -21,6 +21,22 @@ const typeDefs = `#graphql
     EmployeeType: String!
   }
 
+  input EmployeeImportInput {
+    FirstName: String!
+    LastName: String!
+    Age: Int!
+    DateOfJoining: String!
+    Title: String!
+    Department: String!
+    EmployeeType: String!
+    CurrentStatus: Boolean!
+  }
+
+  type EmployeeImportResult {
+    imported: Int!
+    skipped: Int!
+  }
+
   type EmployeeCommunity {
     id: ID!
     employee: Employee
@@ -104,6 +120,7 @@ const typeDefs = `#graphql
       active: Boolean!
     ): User!
     createEmployee(input: EmployeeInput!): Employee!
+    importEmployees(rows: [EmployeeImportInput!]!): EmployeeImportResult!
     updateEmployee(id: ID!, input: EmployeeInput!): Employee!
     setEmployeeStatus(id: ID!, active: Boolean!): Employee!
     createEmployeeCommunity(

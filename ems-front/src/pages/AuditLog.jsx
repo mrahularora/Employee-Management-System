@@ -34,7 +34,7 @@ const AuditLog = () => {
                 <thead>
                   <tr>
                     <th>Time</th>
-                    <th>Administrator</th>
+                    <th>User</th>
                     <th>Action</th>
                     <th>Record</th>
                     <th>Details</th>

@@ -2,7 +2,9 @@ import "../index.css";
 import EmployeeHeader from "../components/EmployeeHeader";
 import EmployeeNavigation from "../components/EmployeeNavigation";
 import EmployeeTable from "../components/EmployeeTable";
+import EmployeeTransfer from "../components/EmployeeTransfer";
 import EmployeeFooter from "../components/EmployeeFooter";
+import { isAdmin } from "../auth";
 
 const ListPage = () => {
   return (
@@ -22,6 +24,7 @@ const ListPage = () => {
         <p className="ems-section-note">
           Search and filter the workforce. Administrators can edit profiles and manage employment status.
         </p>
+        {isAdmin() && <EmployeeTransfer />}
         <EmployeeTable />
         </div>
         <div className="ems-clear"></div><br />

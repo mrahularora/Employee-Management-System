@@ -14,5 +14,6 @@ const validEmployee = {
 assert.equal(new Employee(validEmployee).validateSync(), undefined);
 assert.equal(new Employee({ ...validEmployee, Age: 19 }).validateSync().errors.Age.kind, "min");
 assert.ok(new Employee({ ...validEmployee, FirstName: "" }).validateSync().errors.FirstName);
+assert.equal(new Employee({ ...validEmployee, EmployeeType: "Temporary" }).validateSync().errors.EmployeeType.kind, "enum");
 
 console.log("Employee validation passed");

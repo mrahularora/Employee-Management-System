@@ -997,6 +997,46 @@ h3 {
   font-weight: 800;
 }
 
+.directory-transfer {
+  margin-bottom: 18px;
+  padding: 18px 0;
+  border-top: 1px solid #d7e0ee;
+  border-bottom: 1px solid #d7e0ee;
+}
+
+.directory-transfer h2 {
+  margin-bottom: 12px;
+  color: #1B2A41;
+  font-size: 20px;
+}
+
+.directory-transfer-controls {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) repeat(3, auto);
+  gap: 10px;
+  align-items: end;
+}
+
+.directory-transfer-controls label > span {
+  display: block;
+  margin-bottom: 6px;
+  color: #1B2A41;
+  font-weight: 800;
+}
+
+.directory-transfer-controls input {
+  width: 100%;
+  min-height: 42px;
+  padding: 7px;
+  border: 1px solid #aebdd3;
+  background-color: #ffffff;
+  font: inherit;
+}
+
+.directory-transfer-controls .ems-button {
+  min-height: 42px;
+}
+
 .directory-message {
   margin: 0 0 14px;
 }
@@ -1257,6 +1297,8 @@ body.dark-mode .form-group label,
 body.dark-mode .login-panel h1,
 body.dark-mode .login-form label,
 body.dark-mode .directory-toolbar label,
+body.dark-mode .directory-transfer h2,
+body.dark-mode .directory-transfer-controls label > span,
 body.dark-mode .employee-edit-grid label,
 body.dark-mode .employee-edit-heading h2,
 body.dark-mode .ems-button.secondary {
@@ -1302,6 +1344,10 @@ body.dark-mode select {
   background-color: #111827;
   border-color: #475569;
   color: #f9fafb;
+}
+
+body.dark-mode .directory-transfer {
+  border-color: #334155;
 }
 
 body.dark-mode .form-group input[readonly] {
@@ -1352,6 +1398,7 @@ body.dark-mode .theme-toggle {
   }
 
   .directory-toolbar,
+  .directory-transfer-controls,
   .employee-edit-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1420,6 +1467,7 @@ body.dark-mode .theme-toggle {
   }
 
   .directory-toolbar,
+  .directory-transfer-controls,
   .employee-edit-grid {
     grid-template-columns: 1fr;
   }
