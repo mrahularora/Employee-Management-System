@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { useEffect, useState } from "react";
-import { isLoggedIn, logout } from "../auth";
+import { isAdmin, isLoggedIn, logout } from "../auth";
 import "../index.css";
 
 const Navigation = () => {
@@ -22,11 +22,11 @@ const Navigation = () => {
       <ul>
         <li><NavLink to="/" end className={navClass}>Home</NavLink></li>
         <li><NavLink to="/listpage" className={navClass}>Employee Directory</NavLink></li>
-        <li><NavLink to="/create" className={navClass}>Add Employee</NavLink></li>
-        <li><NavLink to="/community" className={navClass}>Community</NavLink></li>
+        {isAdmin() && <li><NavLink to="/create" className={navClass}>Add Employee</NavLink></li>}
+        {isAdmin() && <li><NavLink to="/community" className={navClass}>Community</NavLink></li>}
         <li><NavLink to="/community-data" className={navClass}>Community Data</NavLink></li>
         <li><NavLink to="/metrics" className={navClass}>Metrics</NavLink></li>
-        <li><NavLink to="/admin" className={navClass}>Admin</NavLink></li>
+        {isAdmin() && <li><NavLink to="/admin" className={navClass}>Admin</NavLink></li>}
         <li className={`nav ${recreationOpen ? "open" : ""}`}>
           <button
             type="button"

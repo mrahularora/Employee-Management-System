@@ -1,8 +1,9 @@
 import { Navigate } from "react-router-dom";
-import { isLoggedIn } from "../auth";
+import { getRole, isLoggedIn } from "../auth";
 
-const ProtectedRoute = ({ children }) => {
-  return isLoggedIn() ? children : <Navigate to="/login" replace />;
+const ProtectedRoute = ({ children, role }) => {
+  if (!isLoggedIn()) return <Navigate to="/login" replace />;
+  return !role || getRole() === role ? children : <Navigate to="/" replace />;
 };
 
 export default ProtectedRoute;

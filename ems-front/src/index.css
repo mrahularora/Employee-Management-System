@@ -361,6 +361,95 @@ body:has(.ems-navigation) {
   line-height: 1.4;
 }
 
+.admin-accounts {
+  width: min(88%, 1180px);
+  padding: 22px 0 36px;
+}
+
+.admin-section-heading {
+  margin-bottom: 18px;
+}
+
+.admin-section-heading h2,
+.admin-list-heading h2 {
+  color: #1B2A41;
+}
+
+.admin-section-heading p:not(.ems-kicker),
+.admin-role-note {
+  color: #42526e;
+}
+
+.admin-account-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.ems-create.admin-account-form {
+  width: 100%;
+  margin: 0;
+}
+
+.admin-account-form .form-help {
+  margin-top: 8px;
+}
+
+.admin-account-form input,
+.admin-account-form select {
+  width: 100%;
+  height: 42px;
+  padding: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #b8c4d6;
+  font: inherit;
+}
+
+.admin-account-form .ems-button {
+  width: 100%;
+}
+
+.admin-list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.admin-list-heading span {
+  color: #42526e;
+  font-weight: 700;
+}
+
+.admin-account-list {
+  min-width: 0;
+}
+
+.admin-account-list .ems-table-container {
+  padding: 0;
+}
+
+.account-status-button {
+  padding: 7px 10px;
+  border: 0;
+  background-color: #d2dcf2;
+  color: #1B2A41;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.account-status-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.admin-role-note {
+  margin-top: 14px;
+  font-size: 14px;
+}
+
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -940,7 +1029,8 @@ body.dark-mode .ems-info-section,
 body.dark-mode .metric-chart-card,
 body.dark-mode .community-metrics,
 body.dark-mode .login-panel,
-body.dark-mode .ems-create {
+body.dark-mode .ems-create,
+body.dark-mode .admin-account-list {
   border-color: #334155;
 }
 
@@ -963,6 +1053,8 @@ body.dark-mode .ems-home-card,
 body.dark-mode .ems-info-section h2,
 body.dark-mode .metric-chart-card h2,
 body.dark-mode .community-metrics h2,
+body.dark-mode .admin-section-heading h2,
+body.dark-mode .admin-list-heading h2,
 body.dark-mode .metrics-donut strong,
 body.dark-mode .chart-legend strong,
 body.dark-mode .department-chart-label,
@@ -984,6 +1076,9 @@ body.dark-mode .ems-info-section li,
 body.dark-mode .ems-section-note,
 body.dark-mode .chart-legend small,
 body.dark-mode .community-metrics p,
+body.dark-mode .admin-section-heading p,
+body.dark-mode .admin-list-heading span,
+body.dark-mode .admin-role-note,
 body.dark-mode .community-stat span,
 body.dark-mode .form-help,
 body.dark-mode .create-form-header p,
@@ -1109,6 +1204,10 @@ body.dark-mode .theme-toggle {
   .create-layout {
     grid-template-columns: 1fr;
     gap: 14px;
+  }
+
+  .admin-account-layout {
+    grid-template-columns: 1fr;
   }
 
   .create-layout .ems-create {

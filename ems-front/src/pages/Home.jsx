@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import EmployeeHeader from "../components/EmployeeHeader";
 import EmployeeNavigation from "../components/EmployeeNavigation";
 import EmployeeFooter from "../components/EmployeeFooter";
+import { isAdmin } from "../auth";
 
 const Home = () => {
   return (
@@ -17,7 +18,7 @@ const Home = () => {
         </p>
         <div className="ems-home-actions">
           <Link to="/listpage" className="ems-button">Employee Directory</Link>
-          <Link to="/create" className="ems-button secondary">Add Employee</Link>
+          {isAdmin() && <Link to="/create" className="ems-button secondary">Add Employee</Link>}
         </div>
       </section>
       <section className="ems-home-grid">

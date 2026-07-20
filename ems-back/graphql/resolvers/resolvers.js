@@ -1,10 +1,30 @@
 const mongoose = require("mongoose");
+const { GraphQLError } = require("graphql");
 const Employee = require("../../models/Employee");
 const EmployeeCommunity = require('../../models/EmployeeCommunity');
 const Registration = require('../../models/Registration');
-const { createToken, requireAuth } = require("../../utils/auth");
+const User = require("../../models/User");
+const {
+  createToken,
+  hashPassword,
+  normalizeUsername,
+  requireAdmin,
+  requireAuth,
+  verifyPassword,
+} = require("../../utils/auth");
+
+const badInput = (message) => new GraphQLError(message, { extensions: { code: "BAD_USER_INPUT" } });
+const invalidLogin = () => new GraphQLError("Invalid username or password", {
+  extensions: { code: "UNAUTHENTICATED" },
+});
+const DUMMY_SALT = "0".repeat(32);
+const DUMMY_HASH = "0".repeat(128);
 
 const resolvers = {
+  User: {
+    role: ({ role }) => role.toUpperCase(),
+    createdAt: ({ createdAt }) => new Date(createdAt).toISOString(),
+  },
   Query: {
     employees: (_, __, context) => {
       requireAuth(context);
@@ -46,16 +66,62 @@ const resolvers = {
         departments: departments.map(({ _id, count }) => ({ name: _id, count })),
       };
     },
+    users: (_, __, context) => {
+      requireAdmin(context);
+      return User.find().sort({ role: 1, username: 1 }).exec();
+    },
   },
   Mutation: {
-    login: (_, { username, password }) => {
-      const adminUsername = process.env.ADMIN_USERNAME || "admin";
-      const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
-      if (username !== adminUsername || password !== adminPassword) throw new Error("Invalid login");
-      return { token: createToken(username), username };
+    login: async (_, { username, password }) => {
+      const user = await User.findOne({
+        username: normalizeUsername(username),
+        active: true,
+      }).select("+passwordHash +passwordSalt");
+      const valid = password.length <= 128 && await verifyPassword(
+        password,
+        user?.passwordSalt || DUMMY_SALT,
+        user?.passwordHash || DUMMY_HASH
+      );
+      if (!user || !valid) throw invalidLogin();
+
+      return {
+        token: createToken(user),
+        username: user.username,
+        role: user.role.toUpperCase(),
+      };
+    },
+    createUser: async (_, { username, password, role }, context) => {
+      requireAdmin(context);
+      const normalizedUsername = normalizeUsername(username);
+      if (!/^[a-z0-9._-]{3,32}$/.test(normalizedUsername)) {
+        throw badInput("Username must be 3-32 characters using letters, numbers, dots, dashes, or underscores");
+      }
+
+      const credentials = await hashPassword(password);
+      try {
+        return await User.create({
+          username: normalizedUsername,
+          ...credentials,
+          role: role.toLowerCase(),
+        });
+      } catch (error) {
+        if (error.code === 11000) throw badInput("Username already exists");
+        throw error;
+      }
+    },
+    setUserActive: async (_, { id, active }, context) => {
+      requireAdmin(context);
+      if (!mongoose.isObjectIdOrHexString(id)) throw badInput("User was not found");
+      if (String(id) === context.user.id && !active) {
+        throw badInput("You cannot disable your own account");
+      }
+
+      const user = await User.findByIdAndUpdate(id, { active }, { new: true }).exec();
+      if (!user) throw badInput("User was not found");
+      return user;
     },
     createEmployee: async (_, { FirstName, LastName, Age, DateOfJoining, Title, Department, EmployeeType }, context) => {
-      requireAuth(context);
+      requireAdmin(context);
       const employee = new Employee({
         FirstName,
         LastName,
@@ -70,7 +136,7 @@ const resolvers = {
       return employee;
     },
     createEmployeeCommunity: async (_, { EmployeeId, ClubName, NumberOfMembers }, context) => {
-      requireAuth(context);
+      requireAdmin(context);
       if (!mongoose.isObjectIdOrHexString(EmployeeId)) {
         throw new Error("Selected employee is invalid");
       }

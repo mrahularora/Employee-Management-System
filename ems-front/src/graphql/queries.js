@@ -44,3 +44,15 @@ export const GET_METRICS = gql`
     }
   }
 `;
+
+export const GET_USERS = gql`
+  query GetUsers {
+    users {
+      id
+      username
+      role
+      active
+      createdAt
+    }
+  }
+`;

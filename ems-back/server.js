@@ -5,7 +5,7 @@ const { expressMiddleware } = require("@as-integrations/express4");
 const connectDB = require("./database/db");
 const typeDefs = require("./graphql/schema/schema");
 const resolvers = require("./graphql/resolvers/resolvers");
-const { verifyToken } = require("./utils/auth");
+const { authenticateToken, ensureInitialAdmin } = require("./utils/auth");
 
 require("dotenv").config();
 
@@ -13,6 +13,7 @@ async function startServer() {
   const app = express();
 
   await connectDB();
+  await ensureInitialAdmin();
 
   const server = new ApolloServer({
     typeDefs,
@@ -26,9 +27,9 @@ async function startServer() {
     cors(),
     express.json(),
     expressMiddleware(server, {
-      context: ({ req }) => {
+      context: async ({ req }) => {
         const token = req.headers.authorization?.replace("Bearer ", "");
-        return { user: verifyToken(token) };
+        return { user: await authenticateToken(token) };
       },
     })
   );

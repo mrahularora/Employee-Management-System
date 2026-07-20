@@ -27,9 +27,23 @@ const typeDefs = `#graphql
   activity: String!
   }
 
+  enum UserRole {
+    ADMIN
+    USER
+  }
+
+  type User {
+    id: ID!
+    username: String!
+    role: UserRole!
+    active: Boolean!
+    createdAt: String!
+  }
+
   type AuthPayload {
     token: String!
     username: String!
+    role: UserRole!
   }
 
   type DepartmentMetric {
@@ -51,6 +65,7 @@ const typeDefs = `#graphql
     employeeCommunities: [EmployeeCommunity]
     registrations: [Registration]
     metrics: Metrics!
+    users: [User!]!
   }
 
   type Mutation {
@@ -58,6 +73,15 @@ const typeDefs = `#graphql
       username: String!
       password: String!
     ): AuthPayload
+    createUser(
+      username: String!
+      password: String!
+      role: UserRole!
+    ): User!
+    setUserActive(
+      id: ID!
+      active: Boolean!
+    ): User!
     createEmployee(
       FirstName: String!
       LastName: String!

@@ -11,7 +11,7 @@ const Login = () => {
   const [login, { loading, error }] = useMutation(LOGIN, {
     onCompleted: ({ login }) => {
       saveLogin(login);
-      navigate("/admin");
+      navigate(login.role === "ADMIN" ? "/admin" : "/");
     },
   });
 
@@ -29,7 +29,7 @@ const Login = () => {
       <section className="login-panel">
         <p className="ems-kicker">Internal access</p>
         <h1>Employee Management System</h1>
-        <p className="login-copy">Sign in with your organization admin account to continue.</p>
+        <p className="login-copy">Sign in with your organization account to continue.</p>
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="username">Username</label>

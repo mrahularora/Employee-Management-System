@@ -65,11 +65,13 @@ Update `ems-back/.env`:
 MONGO_URI=your_mongodb_connection_string
 PORT=4000
 ADMIN_USERNAME=admin
-ADMIN_PASSWORD=change-me
-AUTH_SECRET=change-this-long-random-secret
+ADMIN_PASSWORD=change-this-bootstrap-password
+AUTH_SECRET=change-this-to-a-long-random-secret-value
 ```
 
-The real `.env` file is ignored by Git and should not be committed.
+The admin credentials create the first administrator only when the database has
+no admin account. `AUTH_SECRET` must contain at least 32 characters. The real
+`.env` file is ignored by Git and should not be committed.
 
 ## Installation
 

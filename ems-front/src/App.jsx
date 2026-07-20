@@ -15,7 +15,7 @@ import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-const protectedPage = (page) => <ProtectedRoute>{page}</ProtectedRoute>;
+const protectedPage = (page, role) => <ProtectedRoute role={role}>{page}</ProtectedRoute>;
 const pageTitles = {
   "/": "Home",
   "/login": "Login",
@@ -55,11 +55,11 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route index element={protectedPage(<Home />)} />
-          <Route path="/admin" element={protectedPage(<Admin />)} />
-          <Route path="/create" element={protectedPage(<Create />)} />
+          <Route path="/admin" element={protectedPage(<Admin />, "ADMIN")} />
+          <Route path="/create" element={protectedPage(<Create />, "ADMIN")} />
           <Route path="/listpage" element={protectedPage(<ListPage />)} />
           <Route path="/recreation" element={protectedPage(<Recreation />)} />
-          <Route path="/community" element={protectedPage(<Community />)} />
+          <Route path="/community" element={protectedPage(<Community />, "ADMIN")} />
           <Route path="/community-data" element={protectedPage(<CommunityData />)} />
           <Route path="/metrics" element={protectedPage(<Metrics />)} />
           <Route path="/tictactoe" element={protectedPage(<TicTacToe />)} />
