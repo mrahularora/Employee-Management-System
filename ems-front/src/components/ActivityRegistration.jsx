@@ -1,126 +1,86 @@
-import { useState } from 'react';
-import { useMutation, gql } from '@apollo/client';
+import { useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import { REGISTER_ACTIVITY } from "../graphql/mutations";
+import { GET_EMPLOYEES } from "../graphql/queries";
 
-const REGISTER_MUTATION = gql`
-  mutation Register($name: String!, $email: String!, $activity: String!) {
-    register(name: $name, email: $email, activity: $activity) {
-      name
-      email
-      activity
-    }
-  }
-`;
+const activities = [
+  "Yoga Session",
+  "Beach Volleyball",
+  "Community Service",
+  "Team Building Retreat",
+  "Health and Wellness Workshop",
+];
 
 const RegistrationForm = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    activity: '',
-  });
+  const [formData, setFormData] = useState({ EmployeeId: "", activity: "" });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const [submissionError, setSubmissionError] = useState(null);
+  const [submissionError, setSubmissionError] = useState("");
+  const { data, loading: employeesLoading, error: employeesError } = useQuery(GET_EMPLOYEES);
+  const [registerActivity, { loading }] = useMutation(REGISTER_ACTIVITY);
+  const employees = (data?.employees || []).filter(({ CurrentStatus }) => CurrentStatus);
 
-  const [register, { loading, error }] = useMutation(REGISTER_MUTATION);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const validationErrors = {
+      ...(!formData.EmployeeId && { EmployeeId: "Employee selection is required" }),
+      ...(!formData.activity && { activity: "Activity selection is required" }),
+    };
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length) return;
 
-  const activities = [
-    'Yoga Session',
-    'Beach Volleyball',
-    'Community Service',
-    'Team Building Retreat',
-    'Health and Wellness Workshop',
-  ];
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const validate = () => {
-    const errors = {};
-    if (!formData.name) errors.name = 'Name is required';
-    if (!formData.email) errors.email = 'Email is required';
-    if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Email is invalid';
-    if (!formData.activity) errors.activity = 'Activity selection is required';
-    return errors;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-    } else {
-      setErrors({});
-      setSubmitted(false);
-      setSubmissionError(null);
-
-      try {
-        await register({ variables: formData });
-        setSubmitted(true);
-      } catch (error) {
-        setSubmissionError(error.message || 'Failed to submit the form');
-      }
+    setSubmissionError("");
+    try {
+      await registerActivity({ variables: formData });
+      setSubmitted(true);
+      setFormData({ EmployeeId: "", activity: "" });
+    } catch (error) {
+      setSubmissionError(error.message);
     }
   };
 
   return (
-    <div>
-        <br /><br /><hr />
+    <section className="activity-registration">
       <h3>Register for an Activity</h3>
-      {submitted ? (
-        <p className="success-message">Thank you for registering! We will get in touch with you soon.</p>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Name <span id="red">*</span> :</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            {errors.name && <p className="error">{errors.name}</p>}
-          </div>
-
-          <div className="form-group">
-            <label>Email <span id="red">*</span> :</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            {errors.email && <p className="error">{errors.email}</p>}
-          </div>
-
-          <div className="form-group">
-            <label>Activity <span id="red">*</span> :</label>
-            <select
-              name="activity"
-              value={formData.activity}
-              onChange={handleChange}
-            >
-              <option value="">Select an activity</option>
-              {activities.map((activity, index) => (
-                <option key={index} value={activity}>
-                  {activity}
-                </option>
-              ))}
-            </select>
-            {errors.activity && <p className="error">{errors.activity}</p>}
-          </div>
-          <button type="submit" className="btn btn-primary" disabled={loading}>
-            {loading ? 'Submitting...' : 'Register'}
-          </button>
-        </form>
-      )}
-      {submissionError && <p className="error">{submissionError}</p>}
-      {error && <p className="error">{error.message}</p>}<br />
-      <hr />
-    </div>
+      <p>Select an active employee record so registration details stay connected to the directory.</p>
+      {submitted && <p className="success-message">Activity registration completed.</p>}
+      <form className="activity-registration-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="registration-employee">Employee <span id="red">*</span></label>
+          <select
+            id="registration-employee"
+            value={formData.EmployeeId}
+            onChange={(event) => setFormData({ ...formData, EmployeeId: event.target.value })}
+            disabled={employeesLoading}
+          >
+            <option value="">{employeesLoading ? "Loading employees..." : "Select an employee"}</option>
+            {employees.map((employee) => (
+              <option key={employee.id} value={employee.id}>
+                {employee.FirstName} {employee.LastName} - {employee.Department}
+              </option>
+            ))}
+          </select>
+          {errors.EmployeeId && <p className="field-error">{errors.EmployeeId}</p>}
+        </div>
+        <div className="form-group">
+          <label htmlFor="registration-activity">Activity <span id="red">*</span></label>
+          <select
+            id="registration-activity"
+            value={formData.activity}
+            onChange={(event) => setFormData({ ...formData, activity: event.target.value })}
+          >
+            <option value="">Select an activity</option>
+            {activities.map((activity) => <option key={activity} value={activity}>{activity}</option>)}
+          </select>
+          {errors.activity && <p className="field-error">{errors.activity}</p>}
+        </div>
+        <button type="submit" className="ems-button" disabled={loading || employeesLoading}>
+          {loading ? "Registering..." : "Register"}
+        </button>
+      </form>
+      {employeesError && <p className="field-error">Unable to load active employees.</p>}
+      {submissionError && <p className="field-error">{submissionError}</p>}
+    </section>
   );
 };
 

@@ -104,6 +104,15 @@ The GraphQL API runs at:
 http://localhost:4000/graphql
 ```
 
+For databases created before employee references were introduced, preview and
+apply the one-time community/recreation migration:
+
+```powershell
+cd ems-back
+npm run migrate:references
+npm run migrate:references -- --apply
+```
+
 Start the frontend in a second terminal:
 
 ```powershell

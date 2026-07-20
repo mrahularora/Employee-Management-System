@@ -23,18 +23,18 @@ const typeDefs = `#graphql
 
   type EmployeeCommunity {
     id: ID!
-    EmployeeId: ID
-    EmployeeName: String!
-    DepartmentName: String!
+    employee: Employee
     ClubName: String!
     NumberOfMembers: Int!
   }
     
   type Registration {
-  id: ID!
-  name: String!
-  email: String!
-  activity: String!
+    id: ID!
+    employee: Employee
+    name: String
+    email: String
+    activity: String!
+    createdAt: String
   }
 
   enum UserRole {
@@ -101,10 +101,9 @@ const typeDefs = `#graphql
       NumberOfMembers: Int!
     ): EmployeeCommunity
     register(
-      name: String!
-      email: String!
+      EmployeeId: ID!
       activity: String!
-    ): Registration
+    ): Registration!
   }
 `;
 

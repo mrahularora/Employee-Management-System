@@ -85,11 +85,29 @@ export const CREATE_EMPLOYEE_COMMUNITY = gql`
       NumberOfMembers: $NumberOfMembers
     ) {
       id
-      EmployeeId
-      EmployeeName
-      DepartmentName
+      employee {
+        id
+        FirstName
+        LastName
+        Department
+      }
       ClubName
       NumberOfMembers
+    }
+  }
+`;
+
+export const REGISTER_ACTIVITY = gql`
+  mutation RegisterActivity($EmployeeId: ID!, $activity: String!) {
+    register(EmployeeId: $EmployeeId, activity: $activity) {
+      id
+      activity
+      employee {
+        id
+        FirstName
+        LastName
+        Department
+      }
     }
   }
 `;

@@ -21,6 +21,13 @@ const DUMMY_SALT = "0".repeat(32);
 const DUMMY_HASH = "0".repeat(128);
 
 const resolvers = {
+  EmployeeCommunity: {
+    employee: ({ EmployeeId }) => EmployeeId || null,
+  },
+  Registration: {
+    employee: ({ EmployeeId }) => EmployeeId || null,
+    createdAt: ({ createdAt }) => createdAt?.toISOString() || null,
+  },
   User: {
     role: ({ role }) => role.toUpperCase(),
     createdAt: ({ createdAt }) => new Date(createdAt).toISOString(),
@@ -32,11 +39,15 @@ const resolvers = {
     },
     employeeCommunities: (_, __, context) => {
       requireAuth(context);
-      return EmployeeCommunity.find().exec();
+      return EmployeeCommunity.find().populate("EmployeeId").sort({ ClubName: 1 }).exec();
     },
     registrations: (_, __, context) => {
-      requireAuth(context);
-      return Registration.find().exec();
+      requireAdmin(context);
+      return Registration.find()
+        .select("+name +email")
+        .populate("EmployeeId")
+        .sort({ createdAt: -1 })
+        .exec();
     },
     metrics: async (_, __, context) => {
       requireAuth(context);
@@ -142,13 +153,6 @@ const resolvers = {
         }).exec();
         if (!employee) throw badInput("Employee was not found");
 
-        await EmployeeCommunity.updateMany(
-          { EmployeeId: id },
-          {
-            EmployeeName: `${employee.FirstName} ${employee.LastName}`.trim(),
-            DepartmentName: employee.Department,
-          }
-        );
         return employee;
       } catch (error) {
         if (error.extensions?.code === "BAD_USER_INPUT") throw error;
@@ -173,26 +177,44 @@ const resolvers = {
     createEmployeeCommunity: async (_, { EmployeeId, ClubName, NumberOfMembers }, context) => {
       requireAdmin(context);
       if (!mongoose.isObjectIdOrHexString(EmployeeId)) {
-        throw new Error("Selected employee is invalid");
+        throw badInput("Selected employee is invalid");
       }
-      const employee = await Employee.findById(EmployeeId).exec();
-      if (!employee) throw new Error("Selected employee was not found");
+      const employee = await Employee.findOne({ _id: EmployeeId, CurrentStatus: true }).exec();
+      if (!employee) throw badInput("Selected active employee was not found");
+
+      const clubName = ClubName.trim();
+      if (await EmployeeCommunity.exists({ EmployeeId, ClubName: clubName })) {
+        throw badInput("This employee is already assigned to the community");
+      }
 
       const newCommunity = new EmployeeCommunity({
         EmployeeId,
-        EmployeeName: `${employee.FirstName} ${employee.LastName}`.trim(),
-        DepartmentName: employee.Department,
-        ClubName,
+        ClubName: clubName,
         NumberOfMembers
       });
       await newCommunity.save();
-      return newCommunity;
+      return newCommunity.populate("EmployeeId");
     },
-    register: async (_, { name, email, activity }, context) => {
+    register: async (_, { EmployeeId, activity }, context) => {
       requireAuth(context);
-      const newRegistration = new Registration({ name, email, activity });
-      await newRegistration.save();
-      return newRegistration;
+      if (!mongoose.isObjectIdOrHexString(EmployeeId)) {
+        throw badInput("Selected employee is invalid");
+      }
+
+      const employee = await Employee.findOne({ _id: EmployeeId, CurrentStatus: true }).exec();
+      if (!employee) throw badInput("Selected active employee was not found");
+      if (await Registration.exists({ EmployeeId, activity })) {
+        throw badInput("This employee is already registered for the activity");
+      }
+
+      try {
+        const registration = await Registration.create({ EmployeeId, activity });
+        return registration.populate("EmployeeId");
+      } catch (error) {
+        if (error.code === 11000) throw badInput("This employee is already registered for the activity");
+        if (error.name === "ValidationError") throw badInput("Activity selection is invalid");
+        throw error;
+      }
     },
   },
 };

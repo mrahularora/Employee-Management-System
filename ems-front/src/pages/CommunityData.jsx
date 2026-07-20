@@ -39,14 +39,16 @@ const CommunityData = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {communities.map(({ id, EmployeeId, EmployeeName, DepartmentName, ClubName, NumberOfMembers }) => (
+                  {communities.map(({ id, employee, ClubName, NumberOfMembers }) => (
                     <tr key={id}>
                       <td>
-                        {EmployeeId ? (
-                          <Link to={`/listpage?employee=${EmployeeId}`}>{EmployeeName}</Link>
-                        ) : EmployeeName}
+                        {employee ? (
+                          <Link to={`/listpage?employee=${employee.id}`}>
+                            {employee.FirstName} {employee.LastName}
+                          </Link>
+                        ) : "Employee unavailable"}
                       </td>
-                      <td>{DepartmentName}</td>
+                      <td>{employee?.Department || "Unavailable"}</td>
                       <td>{ClubName}</td>
                       <td>{NumberOfMembers} members</td>
                     </tr>

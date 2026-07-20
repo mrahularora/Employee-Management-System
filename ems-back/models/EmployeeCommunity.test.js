@@ -4,8 +4,6 @@ const EmployeeCommunity = require("./EmployeeCommunity");
 
 const validRecord = new EmployeeCommunity({
   EmployeeId: new mongoose.Types.ObjectId(),
-  EmployeeName: "Rahul Arora",
-  DepartmentName: "IT",
   ClubName: "Wellness Club",
   NumberOfMembers: 8,
 });
