@@ -18,7 +18,7 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
-    "test": "node src/utils/employeeCsv.test.mjs && node src/utils/catanGame.test.mjs",
+    "test": "node src/utils/employeeCsv.test.mjs && node src/utils/catanGame.test.mjs && node src/utils/ticketToRideGame.test.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },
