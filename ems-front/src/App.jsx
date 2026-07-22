@@ -11,6 +11,7 @@ import Metrics from "./pages/Metrics";
 import TicTacToe from './pages/Tictactoe';
 import Error404 from './pages/Error404';
 import BoardGames from "./pages/BoardGames";
+import Catan from "./pages/Catan";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import AuditLog from "./pages/AuditLog";
@@ -31,6 +32,7 @@ const pageTitles = {
   "/metrics": "Metrics",
   "/recreation": "Recreation",
   "/recreation/boardgames": "Board Games",
+  "/recreation/boardgames/catan": "Catan Resource Race",
   "/tictactoe": "Tic Tac Toe",
 };
 
@@ -70,6 +72,7 @@ function App() {
           <Route path="/metrics" element={protectedPage(<Metrics />)} />
           <Route path="/tictactoe" element={protectedPage(<TicTacToe />)} />
           <Route path="/recreation/boardgames" element={protectedPage(<BoardGames />)} />
+          <Route path="/recreation/boardgames/catan" element={protectedPage(<Catan />)} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </BrowserRouter>

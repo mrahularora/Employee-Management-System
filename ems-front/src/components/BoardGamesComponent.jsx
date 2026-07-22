@@ -6,7 +6,7 @@ const BoardGamesComponent = () => {
       <h2 className="center">Board Games</h2>
       <ul>
         <li><Link to="/tictactoe">Tic Tac Toe</Link> - A simple game where players take turns marking spaces in a 3x3 grid, aiming to get three of their marks in a row.</li>
-        <li>Catan (formerly known as Settlers of Catan) - A strategy game where players collect resources and build settlements on a fictional island.</li>
+        <li><Link to="/recreation/boardgames/catan">Catan Resource Race</Link> - A two-player resource and settlement strategy game.</li>
         <li>Ticket to Ride - A game where players collect train cards and claim railway routes across a map to complete destination tickets.</li>
         <li>Codenames - A word game where players give one-word clues to help their team guess the correct words on a grid.</li>
         <li>Carcassonne - A tile-placement game where players build cities, roads, and monasteries on a map and score points based on their placements.</li>
