@@ -14,6 +14,7 @@ import BoardGames from "./pages/BoardGames";
 import Catan from "./pages/Catan";
 import TicketToRide from "./pages/TicketToRide";
 import Codenames from "./pages/Codenames";
+import Carcassonne from "./pages/Carcassonne";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import AuditLog from "./pages/AuditLog";
@@ -37,6 +38,7 @@ const pageTitles = {
   "/recreation/boardgames/catan": "Catan Resource Race",
   "/recreation/boardgames/ticket-to-ride": "Ticket to Ride",
   "/recreation/boardgames/codenames": "Codenames Team Challenge",
+  "/recreation/boardgames/carcassonne": "Carcassonne Landscape Duel",
   "/tictactoe": "Tic Tac Toe",
 };
 
@@ -79,6 +81,7 @@ function App() {
           <Route path="/recreation/boardgames/catan" element={protectedPage(<Catan />)} />
           <Route path="/recreation/boardgames/ticket-to-ride" element={protectedPage(<TicketToRide />)} />
           <Route path="/recreation/boardgames/codenames" element={protectedPage(<Codenames />)} />
+          <Route path="/recreation/boardgames/carcassonne" element={protectedPage(<Carcassonne />)} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </BrowserRouter>
