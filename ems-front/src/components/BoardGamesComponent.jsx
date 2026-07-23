@@ -10,7 +10,7 @@ const BoardGamesComponent = () => {
         <li><Link to="/recreation/boardgames/ticket-to-ride">Ticket to Ride: Canada Routes</Link> - A two-player train card and route-claiming challenge.</li>
         <li><Link to="/recreation/boardgames/codenames">Codenames Team Challenge</Link> - A two-team clue and deduction word game.</li>
         <li><Link to="/recreation/boardgames/carcassonne">Carcassonne Landscape Duel</Link> - A two-player tile, follower, and feature-building challenge.</li>
-        <li>Pandemic - A cooperative game where players work together to stop global outbreaks of diseases by finding cures before time runs out.</li>
+        <li><Link to="/recreation/boardgames/pandemic">Pandemic Response Team</Link> - A cooperative two-role outbreak and cure challenge.</li>
       </ul>
     </div>
   );
